@@ -1,14 +1,10 @@
 package org.example.wecambackend.repos;
 
 import org.example.wecambackend.model.User.User;
+import org.example.wecambackend.model.User.UserPrivate;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
 
-import java.util.Optional;
-
 @Repository
-public interface UserRepository extends JpaRepository<User, Long> {
-    Optional<User> findByEmail(String email);
-
-    boolean existsByEmail(String email);
+public interface UserPrivateRepository  extends JpaRepository<UserPrivate, User> {
 }

@@ -11,7 +11,11 @@ import lombok.*;
 public class UserPrivate {
 
     @Id
+    @Column(name = "user_pk_id")
+    private Long id;
+
     @OneToOne
+    @MapsId
     @JoinColumn(name = "user_pk_id")
     private User user;
 
