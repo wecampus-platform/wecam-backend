@@ -10,4 +10,5 @@ public class LoginResponse {
     private String refreshToken;
     private String email;
     private String role;
+//    private String name; -- 할지 말지 고민
 }
