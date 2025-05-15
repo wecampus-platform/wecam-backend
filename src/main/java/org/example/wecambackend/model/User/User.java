@@ -39,6 +39,10 @@ public class User   {
     @OneToOne(mappedBy = "user", cascade = CascadeType.ALL, fetch = FetchType.LAZY, optional = false)
     private UserPrivate userPrivate;
 
+    @OneToOne(mappedBy = "user", fetch = FetchType.LAZY)
+    private UserInformation userInformation;
+
+
     @PrePersist
     public void prePersist() {
         LocalDateTime now = LocalDateTime.now();
