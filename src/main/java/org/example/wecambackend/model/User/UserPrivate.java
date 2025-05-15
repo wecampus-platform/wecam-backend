@@ -19,7 +19,7 @@ public class UserPrivate {
     @JoinColumn(name = "user_pk_id")
     private User user;
 
-    @Column(name = "phone_number",length = 20, nullable = false, unique = true)
+    @Column(name = "phone_number",length = 150, nullable = false, unique = true)
     private String phoneNumber;
 
     @Column(name = "password", length = 100, nullable = false)

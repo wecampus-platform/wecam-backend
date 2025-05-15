@@ -1,0 +1,57 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <title>로그인 테스트</title>
+</head>
+<body>
+<h2>WeCam 로그인</h2>
+<form id="loginForm">
+    <label for="email">이메일:</label><br>
+    <input type="email" id="email" name="email" required><br><br>
+
+    <label for="password">비밀번호:</label><br>
+    <input type="password" id="password" name="password" required><br><br>
+
+    <button type="submit">로그인</button>
+</form>
+
+<p id="result"></p>
+
+<script>
+    const form = document.getElementById('loginForm');
+    const result = document.getElementById('result');
+
+    form.addEventListener('submit', async (e) => {
+        e.preventDefault();
+
+        const payload = {
+            email: form.email.value,
+            password: form.password.value
+        };
+
+        try {
+            const response = await fetch('/client/auth/login', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json'
+                },
+                body: JSON.stringify(payload)
+            });
+
+            const data = await response.json();
+
+            if (response.ok) {
+                result.innerText = `✅ 로그인 성공: ${data.role}`;
+                console.log("accessToken:", data.accessToken);
+                localStorage.setItem('accessToken', data.accessToken);
+            } else {
+                result.innerText = `❌ 실패: ${data.message || '로그인 실패'}`;
+            }
+        } catch (err) {
+            result.innerText = '🚨 네트워크 에러';
+        }
+    });
+</script>
+</body>
+</html>

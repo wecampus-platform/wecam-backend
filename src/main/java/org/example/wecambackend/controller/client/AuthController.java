@@ -1,6 +1,8 @@
 package org.example.wecambackend.controller.client;
 
 import lombok.RequiredArgsConstructor;
+import org.example.wecambackend.dto.auto.LoginRequest;
+import org.example.wecambackend.dto.auto.LoginResponse;
 import org.example.wecambackend.dto.requestDTO.StudentRegisterRequest;
 import org.example.wecambackend.service.auth.AuthService;
 import org.springframework.http.ResponseEntity;
@@ -20,4 +22,11 @@ public class AuthController {
         authService.registerStudent(request);
         return ResponseEntity.ok("회원가입이 완료되었습니다.");
     }
+
+    @PostMapping("/login")
+    public ResponseEntity<LoginResponse> login(@RequestBody LoginRequest request) {
+        LoginResponse response = authService.login(request);
+        return ResponseEntity.ok(response);
+    }
+
 }

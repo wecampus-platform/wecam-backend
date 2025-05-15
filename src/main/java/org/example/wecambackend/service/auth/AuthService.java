@@ -37,7 +37,7 @@ public class AuthService {
     public LoginResponse login(LoginRequest request) {
 
         // 이메일 유저 조회
-        User user = userRepository.findByEmail(request.getEmail())
+        User user = userRepository.findByEmailWithPrivate(request.getEmail())
                 .orElseThrow(() -> new RuntimeException("사용자를 찾을 수 없습니다."));
 
         // 비밀번호 검증
