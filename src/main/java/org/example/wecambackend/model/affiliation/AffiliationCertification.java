@@ -5,6 +5,7 @@ import lombok.*;
 import org.example.wecambackend.model.Organization;
 import org.example.wecambackend.model.University;
 import org.example.wecambackend.model.User.User;
+import org.example.wecambackend.model.User.UserInformation;
 import org.example.wecambackend.model.enums.AuthenticationStatus;
 import org.example.wecambackend.model.enums.AuthenticationType;
 import org.example.wecambackend.model.enums.OcrResult;
@@ -54,27 +55,21 @@ public class AffiliationCertification {
     private LocalDateTime reviewedAt;
 
     @OneToOne(fetch = FetchType.LAZY)
-    @MapsId
     @JoinColumn(name = "upload_user_pk_id")
     private User user;
 
-    @Column(name = "pk_reviewer_infromation_id")
-    private Long reviewerInformationPkId;
+    @ManyToOne
+    @JoinColumn(name = "pk_reviewer_infromation_id")
+    private UserInformation reviewerUserInfo;
 
 
     @ManyToOne(fetch = FetchType.LAZY)
-    @MapsId
     @JoinColumn(name = "school_pk_id")
     private University university;
 
     @ManyToOne(fetch = FetchType.LAZY)
-    @MapsId
     @JoinColumn(name = "organization_pk_id")
     private Organization organization;
-
-    @Column(name = "user_pk_id", nullable = false)
-    private Long userPkId;
-
 
     @Enumerated(EnumType.STRING)
     @Column(name = "authentication_type", nullable = false)

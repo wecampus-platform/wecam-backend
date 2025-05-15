@@ -35,12 +35,10 @@ public class UserInformation extends BaseTimeEntity {
     private String schoolEmail;
 
     @ManyToOne
-    @MapsId
     @JoinColumn(name = "school_id")
     private University university;
 
     @ManyToOne
-    @MapsId
     @JoinColumn(name = "organization_id")
     private Organization organization;
 

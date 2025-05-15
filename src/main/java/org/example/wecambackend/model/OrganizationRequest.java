@@ -2,6 +2,7 @@ package org.example.wecambackend.model;
 
 import jakarta.persistence.*;
 import lombok.*;
+import org.example.wecambackend.model.User.User;
 import org.example.wecambackend.model.common.BaseTimeEntity;
 import org.example.wecambackend.model.enums.OrganizationType;
 import org.example.wecambackend.model.enums.RequestStatus;
@@ -44,6 +45,8 @@ public class OrganizationRequest extends BaseTimeEntity {
     @Builder.Default
     private RequestStatus status = RequestStatus.PENDING;
 
-    @Column(name = "user_pk_id", nullable = false)
-    private Long userPkId;
+    @OneToOne
+    @MapsId
+    @JoinColumn (name = "user_pk_id", nullable = false)
+    private User user;
 }

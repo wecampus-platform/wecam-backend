@@ -16,12 +16,16 @@ import java.util.UUID;
 @Builder
 public class AffiliationFile {
 
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Column(name = "affiliation_pk_id")
+    private Long id;
+
     @OneToOne(cascade = CascadeType.REMOVE)
     @MapsId
     @JoinColumn(name = "Affiliation_id", nullable = false)
     private AffiliationCertification affiliationCertification;
 
-    @Id
     @Column(name = "uuid", nullable = false, columnDefinition = "BINARY(16)")
     private UUID uuid;
 

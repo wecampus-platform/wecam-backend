@@ -37,7 +37,6 @@ public class Council {
     private Boolean isActive;
 
     @ManyToOne(fetch = FetchType.LAZY)
-    @MapsId
     @JoinColumn(name = "creator_user_id",nullable = false)
     private User user;
 }

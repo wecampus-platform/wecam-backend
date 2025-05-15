@@ -35,16 +35,15 @@ public class UserPositionHistory {
     @Column(name = "end_date")
     private LocalDateTime endDate;
 
-    @Column(name = "user_pk_id", nullable = false)
-    private Long userPkId;
+    @ManyToOne
+    @JoinColumn(name = "user_pk_id", nullable = false)
+    private User user;
 
     @ManyToOne(fetch = FetchType.LAZY)
-    @MapsId
     @JoinColumn(name = "council_id", nullable = false)
     private Council council;
 
     @ManyToOne(fetch = FetchType.LAZY)
-    @MapsId
-    @Column(name = "organization_id", nullable = false)
+    @JoinColumn(name = "organization_id", nullable = false)
     private Organization organization;
 }
