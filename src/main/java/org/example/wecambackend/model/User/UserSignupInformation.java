@@ -14,8 +14,14 @@ import org.example.wecambackend.model.common.BaseTimeEntity;
 public class UserSignupInformation extends BaseTimeEntity {
 
 
+
+
     @Id
+    @Column(name = "user_pk_id")
+    private Long id;
+
     @OneToOne(fetch = FetchType.LAZY)
+    @MapsId
     @JoinColumn(name = "user_pk_id")
     private User user;
 
