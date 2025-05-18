@@ -58,6 +58,9 @@ dependencies {
     //양방향해쉬 - 전화번호 위함
     implementation 'com.github.ulisesbocchio:jasypt-spring-boot-starter:3.0.4'
 
+    // swagger
+    implementation 'org.springdoc:springdoc-openapi-starter-webmvc-ui:2.1.0'
+
 }
 
 tasks.named('test') {

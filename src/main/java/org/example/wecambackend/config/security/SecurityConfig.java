@@ -31,7 +31,11 @@ public class SecurityConfig {
                                 "/css/**",
                                 "/js/**",
                                 "/images/**",
-                                "/client/auth/**" // 로그인/회원가입 API 허용
+                                "/client/auth/**", // 로그인/회원가입 API 허용
+                                "/swagger-ui/**", // Swagger UI HTML/CSS/JS 경로
+                                "/v3/api-docs/**", // OpenAPI JSON 경로
+                                "/swagger-resources/**", // (일부 swagger-ui 라이브러리)
+                                "/webjars/**" // swagger-ui에 필요한 js 라이브러리
                         ).permitAll()
                         .anyRequest().authenticated()
                 )
