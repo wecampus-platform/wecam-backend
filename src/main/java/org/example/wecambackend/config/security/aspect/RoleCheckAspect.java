@@ -1,0 +1,45 @@
+package org.example.wecambackend.config.security.aspect;
+
+import org.aspectj.lang.annotation.Aspect;
+import org.aspectj.lang.annotation.Before;
+import org.example.wecambackend.config.security.UserDetailsImpl;
+import org.example.wecambackend.model.enums.UserRole;
+import org.springframework.security.access.AccessDeniedException;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.context.SecurityContextHolder;
+import org.springframework.stereotype.Component;
+
+
+@Aspect
+@Component
+public class RoleCheckAspect {
+
+    @Before("@annotation(org.example.wecambackend.config.security.annotation.IsStudent)")
+    public void checkStudent() {
+        checkUserRole(UserRole.STUDENT);
+    }
+
+    @Before("@annotation(org.example.wecambackend.config.security.annotation.IsCouncil)")
+    public void checkCouncil() {
+        UserRole role = getCurrentUserRole();
+        if (role != UserRole.COUNCIL && role != UserRole.ADMIN) {
+            throw new AccessDeniedException("학생회만 접근 가능합니다.");
+        }
+    }
+
+    private UserRole getCurrentUserRole() {
+        Authentication auth = SecurityContextHolder.getContext().getAuthentication();
+        if (auth == null || !auth.isAuthenticated()) {
+            throw new AccessDeniedException("인증되지 않은 사용자입니다.");
+        }
+
+        UserDetailsImpl user = (UserDetailsImpl) auth.getPrincipal();
+        return user.getRole();
+    }
+
+    private void checkUserRole(UserRole requiredRole) {
+        if (getCurrentUserRole() != requiredRole) {
+            throw new AccessDeniedException(requiredRole.name() + "만 접근할 수 있습니다.");
+        }
+    }
+}
