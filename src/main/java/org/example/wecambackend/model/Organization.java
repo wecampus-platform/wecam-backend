@@ -41,7 +41,7 @@ public class Organization extends BaseTimeEntity {
     @JoinColumn(name = "parent_id")
     private Organization parent;
 
-    @OneToMany(mappedBy = "parent")
+    @OneToMany(mappedBy = "parent") ///조회용입니다.........
     @Builder.Default
     private List<Organization> children = new ArrayList<>();
 }

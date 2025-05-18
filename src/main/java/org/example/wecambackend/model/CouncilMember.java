@@ -2,6 +2,7 @@ package org.example.wecambackend.model;
 
 import jakarta.persistence.*;
 import lombok.*;
+import org.example.wecambackend.model.User.User;
 import org.example.wecambackend.model.User.UserInformation;
 import org.example.wecambackend.model.enums.MemberRole;
 
@@ -24,8 +25,8 @@ public class CouncilMember {
     private Council council;
 
     @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "information_pk_id", nullable = false)
-    private UserInformation userInformation;
+    @JoinColumn(name = "user_pk_id")
+    private User user;
 
     @Column(name = "member_type", length = 20)
     private String memberType;

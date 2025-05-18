@@ -2,6 +2,8 @@ package org.example.wecambackend.model.User;
 import jakarta.persistence.*;
 import lombok.*;
 
+import java.time.LocalDateTime;
+
 @Entity
 @Table(name = "user_private")
 @Getter @Setter
@@ -24,4 +26,11 @@ public class UserPrivate {
 
     @Column(name = "password", length = 100, nullable = false)
     private String password;
+
+    @Column(name = "password_update_at")
+    private LocalDateTime passwordUpdateAt;
+
+    public void updatePassword() {
+        this.passwordUpdateAt = LocalDateTime.now();
+    }
 }

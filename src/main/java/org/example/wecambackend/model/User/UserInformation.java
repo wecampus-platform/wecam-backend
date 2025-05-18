@@ -38,10 +38,6 @@ public class UserInformation extends BaseTimeEntity {
     @JoinColumn(name = "school_id")
     private University university;
 
-    @ManyToOne
-    @JoinColumn(name = "organization_id")
-    private Organization organization;
-
     @Column(name = "student_grade")
     private Byte studentGrade;
 
@@ -55,26 +51,10 @@ public class UserInformation extends BaseTimeEntity {
     @Column(name = "name", length = 20, nullable = false)
     private String name;
 
-    @Enumerated(EnumType.STRING)
-    @Column(name = "role")
-    private UserRole role;
-
-    @Column(name = "is_superuser", nullable = false)
-    private Boolean isSuperuser;
-
     @Column(name = "is_authentication", nullable = false)
     private Boolean isAuthentication;
 
     @Column(name = "is_council_fee", nullable = false)
     private Boolean isCouncilFee;
-
-    @Column(name = "password_update_at")
-    private LocalDateTime passwordUpdateAt;
-
-    public void updatePassword() {
-        this.passwordUpdateAt = LocalDateTime.now();
-    }
-
-
     // 생략된 부분 추가 가능
 }

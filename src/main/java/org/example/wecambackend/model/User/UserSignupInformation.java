@@ -13,9 +13,6 @@ import org.example.wecambackend.model.common.BaseTimeEntity;
 @Builder
 public class UserSignupInformation extends BaseTimeEntity {
 
-
-
-
     @Id
     @Column(name = "user_pk_id")
     private Long id;

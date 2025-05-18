@@ -48,9 +48,8 @@ public class AuthService {
             throw new RuntimeException("비밀번호가 일치하지 않습니다.");
         }
 
-        String role = user.isAuthentication()
-                ? user.getUserInformation().getRole().name()
-                : "UNAUTH";
+        String role = user.getRole().name();
+
 
 
         // JWT 발급

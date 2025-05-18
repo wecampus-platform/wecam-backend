@@ -51,7 +51,7 @@
         };
 
         try {
-            const response = await fetch('/client/auth/register/student', {
+            const response = await fetch('public/auth/sign/student', {
                 method: 'POST',
                 headers: { 'Content-Type': 'application/json' },
                 body: JSON.stringify(payload)
