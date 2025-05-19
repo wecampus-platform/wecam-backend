@@ -16,14 +16,16 @@ import java.util.UUID;
 @Builder
 public class AffiliationFile {
 
-    @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Column(name = "affiliation_pk_id")
-    private Long id;
+    @EmbeddedId
+    private AffiliationCertificationId id; // 복합키 사용
 
-    @OneToOne(cascade = CascadeType.REMOVE)
-    @MapsId
-    @JoinColumn(name = "Affiliation_id", nullable = false)
+
+    @MapsId // EmbeddedId와 완전히 동일한 키를 사용하여 맵핑할 때만 이 구조 가능
+    @OneToOne
+    @JoinColumns({
+            @JoinColumn(name = "pk_upload_userid", referencedColumnName = "pk_upload_userid"),
+            @JoinColumn(name = "authentication_type", referencedColumnName = "authentication_type")
+    })
     private AffiliationCertification affiliationCertification;
 
     @Column(name = "uuid", nullable = false, columnDefinition = "BINARY(16)")

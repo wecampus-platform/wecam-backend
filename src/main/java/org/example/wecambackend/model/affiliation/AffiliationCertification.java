@@ -5,7 +5,6 @@ import lombok.*;
 import org.example.wecambackend.model.Organization;
 import org.example.wecambackend.model.University;
 import org.example.wecambackend.model.User.User;
-import org.example.wecambackend.model.User.UserInformation;
 import org.example.wecambackend.model.enums.AuthenticationStatus;
 import org.example.wecambackend.model.enums.AuthenticationType;
 import org.example.wecambackend.model.enums.OcrResult;
@@ -20,10 +19,18 @@ import java.time.LocalDateTime;
 @Builder
 public class AffiliationCertification {
 
-    @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Column(name = "authentication_pk_id")
-    private Long id;
+
+    @EmbeddedId
+    private AffiliationCertificationId id;
+
+    @MapsId("userId")
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "pk_upload_userid")
+    private User user;
+
+    @Enumerated(EnumType.STRING)
+    @Column(name = "authentication_type", insertable = false, updatable = false)
+    private AuthenticationType authenticationType;
 
     @Enumerated(EnumType.STRING)
     @Column(name = "ocr_result", nullable = false)
@@ -54,13 +61,10 @@ public class AffiliationCertification {
     @Column(name = "reviewed_at")
     private LocalDateTime reviewedAt;
 
-    @OneToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "upload_user_pk_id")
-    private User user;
 
     @ManyToOne
-    @JoinColumn(name = "pk_reviewer_infromation_id")
-    private UserInformation reviewerUserInfo;
+    @JoinColumn(name = "pk_reviewer_userid")
+    private User reviewUser;
 
 
     @ManyToOne(fetch = FetchType.LAZY)
@@ -71,7 +75,4 @@ public class AffiliationCertification {
     @JoinColumn(name = "organization_pk_id")
     private Organization organization;
 
-    @Enumerated(EnumType.STRING)
-    @Column(name = "authentication_type", nullable = false)
-    private AuthenticationType authenticationType;
 }
