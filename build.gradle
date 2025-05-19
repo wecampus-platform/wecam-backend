@@ -61,6 +61,10 @@ dependencies {
     // swagger
     implementation 'org.springdoc:springdoc-openapi-starter-webmvc-ui:2.1.0'
 
+    //OCR
+    implementation 'net.sourceforge.tess4j:tess4j:5.4.0'
+
+
 }
 
 tasks.named('test') {

@@ -1,6 +1,7 @@
 package org.example.wecambackend.config.security;
 
 import lombok.RequiredArgsConstructor;
+import org.example.wecambackend.config.auth.JwtAuthenticationFilter;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
@@ -8,6 +9,7 @@ import org.springframework.security.config.annotation.web.configuration.EnableWe
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.web.SecurityFilterChain;
+import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
 import org.springframework.web.cors.CorsConfiguration;
 
 import java.util.List;
@@ -17,6 +19,8 @@ import java.util.List;
 @RequiredArgsConstructor
 public class SecurityConfig {
 
+    private final JwtAuthenticationFilter jwtAuthenticationFilter; // 생성자 주입
+
     @Bean
     public PasswordEncoder passwordEncoder() {
         return new BCryptPasswordEncoder();
@@ -24,13 +28,16 @@ public class SecurityConfig {
 
     @Bean
     public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
+
         http
+                .addFilterBefore(jwtAuthenticationFilter, UsernamePasswordAuthenticationFilter.class) // 토큰인증
                 .csrf(csrf -> csrf.disable())
                 .cors(cors -> cors.configurationSource(request -> {
                     CorsConfiguration config = new CorsConfiguration();
                     config.setAllowedOrigins(List.of("*"));
                     config.setAllowedMethods(List.of("GET", "POST", "PUT", "DELETE", "OPTIONS"));
                     config.setAllowedHeaders(List.of("*"));
+                    config.setAllowCredentials(true); // ✔ optional
                     return config;
                 }))
                 .authorizeHttpRequests(auth -> auth
@@ -38,22 +45,20 @@ public class SecurityConfig {
                                 "/",
                                 "/login_example.html",
                                 "/signup_example.html",
+                                "/freshman_cert_example.html",
                                 "/css/**",
                                 "/js/**",
                                 "/images/**",
-                                "/client/auth/**", // 로그인/회원가입 API 허용
-                                "/swagger-ui/**", // Swagger UI HTML/CSS/JS 경로
-                                "/v3/api-docs/**", // OpenAPI JSON 경로
-                                "/swagger-resources/**", // (일부 swagger-ui 라이브러리)
-                                "/webjars/**", // swagger-ui에 필요한 js 라이브러리
+                                "/swagger-ui/**",
+                                "/v3/api-docs/**",
+                                "/swagger-resources/**",
+                                "/webjars/**",
                                 "/public/**"
-                                ).permitAll()
+                        ).permitAll()
                         .anyRequest().authenticated()
                 )
-                .formLogin(form -> form.disable()); // 기본 로그인 화면 비활성화
+                .formLogin(form -> form.disable());
 
         return http.build();
     }
-
-
 }

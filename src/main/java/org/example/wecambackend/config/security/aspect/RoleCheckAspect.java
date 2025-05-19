@@ -4,6 +4,7 @@ import org.aspectj.lang.annotation.Aspect;
 import org.aspectj.lang.annotation.Before;
 import org.example.wecambackend.config.security.UserDetailsImpl;
 import org.example.wecambackend.model.enums.UserRole;
+import org.hibernate.annotations.SelectBeforeUpdate;
 import org.springframework.security.access.AccessDeniedException;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
@@ -25,6 +26,13 @@ public class RoleCheckAspect {
         if (role != UserRole.COUNCIL && role != UserRole.ADMIN) {
             throw new AccessDeniedException("학생회만 접근 가능합니다.");
         }
+    }
+
+
+    //신입생 소속인증 진행은 완료되면 다시 진행하지 못함.(UnAuth -> Guest_Student 에서 사용)
+    @Before("@annotation(org.example.wecambackend.config.security.annotation.IsUnauth)")
+    public void checkUnauth() {
+        checkUserRole(UserRole.UNAUTH);
     }
 
     private UserRole getCurrentUserRole() {
