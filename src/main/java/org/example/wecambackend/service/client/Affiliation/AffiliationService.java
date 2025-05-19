@@ -1,8 +1,7 @@
-package org.example.wecambackend.service.client;
+package org.example.wecambackend.service.client.Affiliation;
 
 import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
-import net.sourceforge.tess4j.OCRResult;
 import org.example.wecambackend.dto.responseDTO.OcrResultResponse;
 import org.example.wecambackend.model.Organization;
 import org.example.wecambackend.model.University;
@@ -10,7 +9,6 @@ import org.example.wecambackend.model.User.User;
 import org.example.wecambackend.model.User.UserSignupInformation;
 import org.example.wecambackend.model.affiliation.AffiliationCertification;
 import org.example.wecambackend.model.affiliation.AffiliationCertificationId;
-import org.example.wecambackend.model.affiliation.AffiliationFile;
 import org.example.wecambackend.model.enums.AuthenticationStatus;
 import org.example.wecambackend.model.enums.AuthenticationType;
 import org.example.wecambackend.model.enums.OcrResult;
@@ -21,7 +19,6 @@ import java.time.LocalDateTime;
 import java.util.Map;
 import java.util.UUID;
 import java.util.stream.Stream;
-import java.io.File;
 
 
 @RequiredArgsConstructor
