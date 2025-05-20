@@ -8,7 +8,8 @@ import org.springframework.security.access.AccessDeniedException;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.RestControllerAdvice;
 
-@RestControllerAdvice
+//TODO : 왠지모르겠지만 이거 주석 처리 하니까 잘 뜸...Swagger 추후 다시 주석 풀어야됨.
+//@RestControllerAdvice
 public class GlobalExceptionHandler {
 
     // 1. 접근 권한 예외 처리
