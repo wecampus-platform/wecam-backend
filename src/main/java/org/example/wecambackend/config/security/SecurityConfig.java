@@ -1,5 +1,6 @@
 package org.example.wecambackend.config.security;
 
+import jakarta.servlet.http.HttpServletResponse;
 import lombok.RequiredArgsConstructor;
 import org.example.wecambackend.config.auth.JwtAuthenticationFilter;
 import org.springframework.context.annotation.Bean;
@@ -57,7 +58,20 @@ public class SecurityConfig {
                         ).permitAll()
                         .anyRequest().authenticated()
                 )
-                .formLogin(form -> form.disable());
+                .formLogin(form -> form.disable())
+//                .exceptionHandling(exception -> exception
+//                    .authenticationEntryPoint((request, response, authException) -> {
+//                        response.setStatus(HttpServletResponse.SC_UNAUTHORIZED);
+//                        response.setContentType("application/json");
+//                        response.getWriter().write("{\"message\": \"로그인이 필요합니다.\"}");
+//                    })
+                //Test 용 _ html로 접근되게 함.
+                .exceptionHandling(exception -> exception
+                        .authenticationEntryPoint((request, response, authException) -> {
+                            // 인증 안 된 사용자 → 프론트 로그인 화면으로 리다이렉트
+                            response.sendRedirect("/login_example.html"); // 또는 "/login"
+                        })
+                );
 
         return http.build();
     }
