@@ -28,11 +28,19 @@ public class RoleCheckAspect {
         }
     }
 
-
     //신입생 소속인증 진행은 완료되면 다시 진행하지 못함.(UnAuth -> Guest_Student 에서 사용)
     @Before("@annotation(org.example.wecambackend.config.security.annotation.IsUnauth)")
     public void checkUnauth() {
         checkUserRole(UserRole.UNAUTH);
+    }
+
+    //재학생 소속인증 진행은 신입생 인증을 완료한 Guest_Student , Unauth 만 진행이 가능
+    @Before("@annotation(org.example.wecambackend.config.security.annotation.IsUnStudent)")
+    public void checkUnStudent() {
+        UserRole role = getCurrentUserRole();
+        if (role != UserRole.GUEST_STUDENT && role != UserRole.UNAUTH) {
+            throw new AccessDeniedException("접근이 불가합니다.");
+        }
     }
 
     private UserRole getCurrentUserRole() {

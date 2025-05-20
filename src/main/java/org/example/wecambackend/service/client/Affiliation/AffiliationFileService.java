@@ -1,4 +1,4 @@
-package org.example.wecambackend.service.client;
+package org.example.wecambackend.service.client.Affiliation;
 
 import lombok.RequiredArgsConstructor;
 import org.example.wecambackend.model.affiliation.AffiliationCertification;
@@ -6,7 +6,6 @@ import org.example.wecambackend.model.affiliation.AffiliationFile;
 import org.example.wecambackend.model.enums.FileType;
 import org.example.wecambackend.repos.AffiliationFileRepository;
 import org.springframework.stereotype.Service;
-import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.multipart.MultipartFile;
 
 import java.time.LocalDateTime;

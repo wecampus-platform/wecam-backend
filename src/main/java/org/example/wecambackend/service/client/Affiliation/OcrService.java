@@ -1,4 +1,4 @@
-package org.example.wecambackend.service.client;
+package org.example.wecambackend.service.client.Affiliation;
 
 import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Value;

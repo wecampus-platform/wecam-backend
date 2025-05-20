@@ -5,9 +5,9 @@ import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import lombok.RequiredArgsConstructor;
 import org.example.wecambackend.config.security.UserDetailsImpl;
+import org.example.wecambackend.config.security.annotation.IsUnStudent;
 import org.example.wecambackend.config.security.annotation.IsUnauth;
-import org.example.wecambackend.service.client.AffiliationService;
-import org.example.wecambackend.service.client.OcrService;
+import org.example.wecambackend.service.client.Affiliation.AffiliationService;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.stereotype.Controller;
@@ -25,6 +25,10 @@ public class UserAffiliationController {
 
     private final AffiliationService affiliationService;
 
+
+    /*TODO : 추후 업로드 파일 분기해야됨. 다만 어차피 S3 같은걸로 바꿀거라 나중에해도 될거같다는 생각이 들었음.
+       학교별 ID , 조직별 ID 가져와서 폴더 생성해야될 듯*/
+    //컨트롤러 딴에선 분리 다만 서비스는 합칠 것임.
     @IsUnauth
     @PostMapping("/freshman")
     @Operation(summary = "신입생 인증 요청", description = "사진을 업로드하고 OCR 추출 결과를 DB에 저장")
@@ -33,8 +37,20 @@ public class UserAffiliationController {
             @RequestPart("file") MultipartFile file
     ) {
         Long userId = userDetails.getId();
-        affiliationService.saveNewStudentAffiliation(userId, file);
+        affiliationService.saveStudentAffiliation(userId, file ,"fresh");
         return ResponseEntity.ok("신입생 인증 요청이 접수되었습니다.");
+    }
+
+    @IsUnStudent
+    @PostMapping("/CurrentStudent")
+    @Operation(summary = "재학생 인증 요청", description = "사진을 업로드하고 OCR 추출 결과를 DB에 저장")
+    public ResponseEntity<?> registerCurrentStudentAffiliation(
+            @AuthenticationPrincipal UserDetailsImpl userDetails,
+            @RequestPart("file") MultipartFile file
+    ) {
+        Long userId = userDetails.getId();
+        affiliationService.saveStudentAffiliation(userId, file , "current");
+        return ResponseEntity.ok("재학생 인증 요청이 접수되었습니다.");
     }
 
 
