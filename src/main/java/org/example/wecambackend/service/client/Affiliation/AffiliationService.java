@@ -15,6 +15,7 @@ import org.example.wecambackend.model.enums.AuthenticationStatus;
 import org.example.wecambackend.model.enums.AuthenticationType;
 import org.example.wecambackend.model.enums.OcrResult;
 import org.example.wecambackend.repos.*;
+import org.example.wecambackend.repos.affiliation.AffiliationCertificationRepository;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
 import java.time.LocalDateTime;

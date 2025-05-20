@@ -1,6 +1,7 @@
 package org.example.wecambackend.config.security;
 
 import lombok.Getter;
+import org.example.wecambackend.model.User.User;
 import org.example.wecambackend.model.enums.UserRole;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
@@ -16,12 +17,15 @@ public class UserDetailsImpl implements UserDetails {
     private final String email;
     @Getter
     private final UserRole role;
+    @Getter
+    private final Long organizationId;
 
     //로그인 이후 JwtAuthenticationFilter에서 사용자 정보를 기반으로 객체 생성
-    public UserDetailsImpl(Long id, String email, UserRole role) {
+    public UserDetailsImpl(Long id, String email, UserRole role, Long organizationId) {
         this.id = id;
         this.email = email;
         this.role = role;
+        this.organizationId = organizationId;
     }
     //JWT 기반 구조에서는 비밀번호가 필요하지 않기 때문에 null 반환
     @Override
@@ -42,4 +46,5 @@ public class UserDetailsImpl implements UserDetails {
     @Override public boolean isAccountNonLocked() { return true; }
     @Override public boolean isCredentialsNonExpired() { return true; }
     @Override public boolean isEnabled() { return true; }
+
 }

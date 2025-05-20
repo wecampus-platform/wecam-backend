@@ -4,7 +4,7 @@ import lombok.RequiredArgsConstructor;
 import org.example.wecambackend.model.affiliation.AffiliationCertification;
 import org.example.wecambackend.model.affiliation.AffiliationFile;
 import org.example.wecambackend.model.enums.FileType;
-import org.example.wecambackend.repos.AffiliationFileRepository;
+import org.example.wecambackend.repos.affiliation.AffiliationFileRepository;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
 

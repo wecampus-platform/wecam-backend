@@ -55,4 +55,8 @@ public class AffiliationFile {
         this.expiresAt = LocalDateTime.now().plusDays(10);
         //추후 커스텀마이징 설정값으로 바꿀 예정.
     }
+
+    public String getFilePath() {
+        return this.filePath;
+    }
 }
