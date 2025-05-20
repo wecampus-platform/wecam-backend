@@ -38,9 +38,10 @@ public class AffiliationService {
        신입생 인증 진행 시 role 변환을 할 거니까 적용됨. 다만, ROle UPDATE 시점은 승인 후 이기 떄문에, 그전까지는 버튼이 비활성화 되지 않음.
        이거또한 UI에 구현할 것인지 얘기 해봐야한다.*/
 
+    // Student= New 랑 Current 합침!
     //DB 한꺼번에 저장. 업로드되자마자 OCR 결과추출해서 Affiliation 테이블에 값이 들어가는 거 까지가 하나의 로직
     @Transactional
-    public void saveNewStudentAffiliation(Long userId, MultipartFile file) {
+    public void saveStudentAffiliation(Long userId, MultipartFile file, String status) {
 
         //1. 유저조회
         User uploadUser = userRepository.findById(userId)
@@ -78,29 +79,51 @@ public class AffiliationService {
         OcrResult ocrResult = determineFreshmanOcrResult(signupInfo, ocrResultDto, school, organization);
 
 
+        AffiliationCertification cert;
         // 7. 인증 정보 저장 - 신입생 인증 정보 저장
+        if (status =="fresh") {
+            AffiliationCertificationId id = new AffiliationCertificationId(
+                    uploadUser.getUserPkId(),
+                    AuthenticationType.NEW_STUDENT
+            );
 
-        AffiliationCertificationId id = new AffiliationCertificationId(
-                uploadUser.getUserPkId(),
-                AuthenticationType.NEW_STUDENT
-        );
+             cert = AffiliationCertification.builder()
+                    .id(id)
+                    .user(uploadUser)
+                    .authenticationType(AuthenticationType.NEW_STUDENT)
+                    .ocrUserName(ocrResultDto.getUserName())
+                    .ocrEnrollYear(ocrResultDto.getEnrollYear())
+                    .ocrSchoolName(ocrResultDto.getSchoolName())
+                    .ocrOrganizationName(ocrResultDto.getOrgName())
+                    .ocrResult(ocrResult)
+                    .status(AuthenticationStatus.PENDING)
+                    .requestedAt(LocalDateTime.now())
+                    .organization(organization)
+                    .university(school)
+                    .build();
 
-        AffiliationCertification cert = AffiliationCertification.builder()
-                .id(id)
-                .user(uploadUser)
-                .authenticationType(AuthenticationType.NEW_STUDENT)
-                .ocrUserName(ocrResultDto.getUserName())
-                .ocrEnrollYear(ocrResultDto.getEnrollYear())
-                .ocrSchoolName(ocrResultDto.getSchoolName())
-                .ocrOrganizationName(ocrResultDto.getOrgName())
-                .ocrResult(ocrResult)
-                .status(AuthenticationStatus.PENDING)
-                .requestedAt(LocalDateTime.now())
-                .organization(organization)
-                .university(school)
-                .build();
+            affiliationCertificationRepository.save(cert);
+        } else {
+            AffiliationCertificationId id = new AffiliationCertificationId(
+                    uploadUser.getUserPkId(),
+                    AuthenticationType.CURRENT_STUDENT);
+            cert = AffiliationCertification.builder()
+                    .id(id)
+                    .user(uploadUser)
+                    .authenticationType(AuthenticationType.NEW_STUDENT)
+                    .ocrUserName(ocrResultDto.getUserName())
+                    .ocrEnrollYear(ocrResultDto.getEnrollYear())
+                    .ocrSchoolName(ocrResultDto.getSchoolName())
+                    .ocrOrganizationName(ocrResultDto.getOrgName())
+                    .ocrResult(ocrResult)
+                    .status(AuthenticationStatus.PENDING)
+                    .requestedAt(LocalDateTime.now())
+                    .organization(organization)
+                    .university(school)
+                    .build();
 
-        affiliationCertificationRepository.save(cert);
+            affiliationCertificationRepository.save(cert);
+        }
         // 8. 파일 정보 저장
         UUID uuid = UUID.randomUUID();
         String path = fileStorageService.save(file,uuid);
@@ -147,10 +170,5 @@ public class AffiliationService {
 
     private boolean equalsIgnoreCaseSafe(String a, String b) {
         return a != null && b != null && a.trim().equalsIgnoreCase(b.trim());
-    }
-
-
-    public void saveCurrentStudentAffiliation(Long userId, MultipartFile file) {
-        
     }
 }

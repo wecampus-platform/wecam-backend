@@ -34,7 +34,7 @@ public class RoleCheckAspect {
         checkUserRole(UserRole.UNAUTH);
     }
 
-    //재학생 소속인증 진행은 신입생 인증을 완료한 Guest_Student , Unauth 만 진행이 가능합니다.
+    //재학생 소속인증 진행은 신입생 인증을 완료한 Guest_Student , Unauth 만 진행이 가능
     @Before("@annotation(org.example.wecambackend.config.security.annotation.IsUnStudent)")
     public void checkUnStudent() {
         UserRole role = getCurrentUserRole();
