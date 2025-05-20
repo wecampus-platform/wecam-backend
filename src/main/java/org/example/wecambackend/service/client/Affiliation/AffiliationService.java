@@ -150,4 +150,7 @@ public class AffiliationService {
     }
 
 
+    public void saveCurrentStudentAffiliation(Long userId, MultipartFile file) {
+        
+    }
 }
