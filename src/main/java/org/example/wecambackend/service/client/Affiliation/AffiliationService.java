@@ -1,8 +1,10 @@
 package org.example.wecambackend.service.client.Affiliation;
 
+import io.swagger.v3.oas.annotations.Operation;
 import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
 import org.example.wecambackend.dto.responseDTO.OcrResultResponse;
+import org.example.wecambackend.exception.DuplicateSubmissionException;
 import org.example.wecambackend.model.Organization;
 import org.example.wecambackend.model.University;
 import org.example.wecambackend.model.User.User;
@@ -40,20 +42,19 @@ public class AffiliationService {
 
     // Student= New 랑 Current 합침!
     //DB 한꺼번에 저장. 업로드되자마자 OCR 결과추출해서 Affiliation 테이블에 값이 들어가는 거 까지가 하나의 로직
+    @Operation(summary = "인증서 등록 서비스", description = "사진 저장, OCR 추출 결과를 DB에 저장 전체 Transactional로 묶임.")
     @Transactional
-    public void saveStudentAffiliation(Long userId, MultipartFile file, String status) {
+    public void saveStudentAffiliation(Long userId, MultipartFile file, AuthenticationType status) {
 
         //1. 유저조회
         User uploadUser = userRepository.findById(userId)
                 .orElseThrow(() -> new RuntimeException("유저 없음"));
 
         // 2. 이미 인증 요청이 존재하는지 확인
-        boolean exists = affiliationCertificationRepository.existsByUserAndAuthenticationType(uploadUser, AuthenticationType.NEW_STUDENT);
+        boolean exists = affiliationCertificationRepository.existsByUserAndAuthenticationType(uploadUser, status);
         if (exists) {
-            throw new IllegalStateException("이미 신입생 인증 요청이 존재합니다.");
+            throw new DuplicateSubmissionException("이미 해당 유형의 인증 요청을 제출하셨습니다.");
         }
-
-
 
         // 3. 회원가입 정보 조회
         UserSignupInformation signupInfo = userSignupInformationRepository.findByUser_UserPkId(userId)
@@ -81,49 +82,28 @@ public class AffiliationService {
 
         AffiliationCertification cert;
         // 7. 인증 정보 저장 - 신입생 인증 정보 저장
-        if (status =="fresh") {
-            AffiliationCertificationId id = new AffiliationCertificationId(
-                    uploadUser.getUserPkId(),
-                    AuthenticationType.NEW_STUDENT
-            );
 
-             cert = AffiliationCertification.builder()
-                    .id(id)
-                    .user(uploadUser)
-                    .authenticationType(AuthenticationType.NEW_STUDENT)
-                    .ocrUserName(ocrResultDto.getUserName())
-                    .ocrEnrollYear(ocrResultDto.getEnrollYear())
-                    .ocrSchoolName(ocrResultDto.getSchoolName())
-                    .ocrOrganizationName(ocrResultDto.getOrgName())
-                    .ocrResult(ocrResult)
-                    .status(AuthenticationStatus.PENDING)
-                    .requestedAt(LocalDateTime.now())
-                    .organization(organization)
-                    .university(school)
-                    .build();
+        AffiliationCertificationId id = new AffiliationCertificationId(
+                uploadUser.getUserPkId(),
+                status);
 
-            affiliationCertificationRepository.save(cert);
-        } else {
-            AffiliationCertificationId id = new AffiliationCertificationId(
-                    uploadUser.getUserPkId(),
-                    AuthenticationType.CURRENT_STUDENT);
-            cert = AffiliationCertification.builder()
-                    .id(id)
-                    .user(uploadUser)
-                    .authenticationType(AuthenticationType.NEW_STUDENT)
-                    .ocrUserName(ocrResultDto.getUserName())
-                    .ocrEnrollYear(ocrResultDto.getEnrollYear())
-                    .ocrSchoolName(ocrResultDto.getSchoolName())
-                    .ocrOrganizationName(ocrResultDto.getOrgName())
-                    .ocrResult(ocrResult)
-                    .status(AuthenticationStatus.PENDING)
-                    .requestedAt(LocalDateTime.now())
-                    .organization(organization)
-                    .university(school)
-                    .build();
 
-            affiliationCertificationRepository.save(cert);
-        }
+         cert = AffiliationCertification.builder()
+                .id(id)
+                .user(uploadUser)
+                .authenticationType(status)
+                .ocrUserName(ocrResultDto.getUserName())
+                .ocrEnrollYear(ocrResultDto.getEnrollYear())
+                .ocrSchoolName(ocrResultDto.getSchoolName())
+                .ocrOrganizationName(ocrResultDto.getOrgName())
+                .ocrResult(ocrResult)
+                .status(AuthenticationStatus.PENDING)
+                .requestedAt(LocalDateTime.now())
+                .organization(organization)
+                .university(school)
+                .build();
+
+        affiliationCertificationRepository.save(cert);
         // 8. 파일 정보 저장
         UUID uuid = UUID.randomUUID();
         String path = fileStorageService.save(file,uuid);
