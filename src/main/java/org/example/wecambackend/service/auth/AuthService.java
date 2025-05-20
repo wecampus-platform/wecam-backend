@@ -59,6 +59,8 @@ public class AuthService {
         // RefreshToken Redis 저장
         redisTemplate.opsForValue().set("RT:" + user.getUserPkId(), refreshToken, 7, TimeUnit.DAYS);
 
+        System.out.println("User 로그인 완료 :"+accessToken);
+        System.out.println("user pk id : "+user.getUserPkId() +" user email : " +user.getEmail());
 
         // 응답 반환
         return LoginResponse.builder()

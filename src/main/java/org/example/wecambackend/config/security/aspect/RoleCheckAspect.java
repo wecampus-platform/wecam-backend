@@ -3,6 +3,7 @@ package org.example.wecambackend.config.security.aspect;
 import org.aspectj.lang.annotation.Aspect;
 import org.aspectj.lang.annotation.Before;
 import org.example.wecambackend.config.security.UserDetailsImpl;
+import org.example.wecambackend.model.User.User;
 import org.example.wecambackend.model.enums.UserRole;
 import org.hibernate.annotations.SelectBeforeUpdate;
 import org.springframework.security.access.AccessDeniedException;
@@ -58,4 +59,6 @@ public class RoleCheckAspect {
             throw new AccessDeniedException(requiredRole.name() + "만 접근할 수 있습니다.");
         }
     }
+
+
 }
