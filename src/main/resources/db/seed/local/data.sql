@@ -6,30 +6,31 @@ VALUES
 -- 여러 단과대학 (school_id = 1, 서울대 기준)
 INSERT INTO organization (organization_id, school_id, organization_name, organization_type, level, parent_id, created_at, updated_at)
 VALUES
-    (1, 1, '공과대학', 'COLLEGE', 1, NULL, NOW(), NOW()),
-    (2, 1, '인문대학', 'COLLEGE', 1, NULL, NOW(), NOW()),
-    (3, 1, '자연과학대학', 'COLLEGE', 1, NULL, NOW(), NOW()),
-    (4, 1, '사회과학대학', 'COLLEGE', 1, NULL, NOW(), NOW()),
-    (5, 1, '경영대학', 'COLLEGE', 1, NULL, NOW(), NOW()),
-    (6, 1, '농업생명과학대학', 'COLLEGE', 1, NULL, NOW(), NOW()),
-    (7, 1, '생활과학대학', 'COLLEGE', 1, NULL, NOW(), NOW()),
-    (8, 1, '미술대학', 'COLLEGE', 1, NULL, NOW(), NOW()),
-    (9, 1, '음악대학', 'COLLEGE', 1, NULL, NOW(), NOW()),
-    (10, 1, '사범대학', 'COLLEGE', 1, NULL, NOW(), NOW());
+    (1,1,'서울대학교','UNIVERSITY',0,NULL, NOW(), NOW()),
+    (2, 1, '공과대학', 'COLLEGE', 1, 1, NOW(), NOW()),
+    (3, 1, '인문대학', 'COLLEGE', 1, 1, NOW(), NOW()),
+    (4, 1, '자연과학대학', 'COLLEGE', 1, 1, NOW(), NOW()),
+    (5, 1, '사회과학대학', 'COLLEGE', 1, 1, NOW(), NOW()),
+    (6, 1, '경영대학', 'COLLEGE', 1, 1, NOW(), NOW()),
+    (7, 1, '생활과학대학', 'COLLEGE', 1, 1, NOW(), NOW()),
+    (8, 1, '미술대학', 'COLLEGE', 1, 1, NOW(), NOW()),
+    (9, 1, '음악대학', 'COLLEGE', 1, 1, NOW(), NOW()),
+    (10, 1, '사범대학', 'COLLEGE', 1, 1, NOW(), NOW());
 
 -- 부산대학교 단과대학들 (COLLEGE, school_id = 2)
 INSERT INTO organization (organization_id, school_id, organization_name, organization_type, level, parent_id, created_at, updated_at)
 VALUES
-    (101, 2, '공과대학', 'COLLEGE', 1, NULL, NOW(), NOW()),
-    (102, 2, '인문대학', 'COLLEGE', 1, NULL, NOW(), NOW()),
-    (103, 2, '자연과학대학', 'COLLEGE', 1, NULL, NOW(), NOW()),
-    (104, 2, '사회과학대학', 'COLLEGE', 1, NULL, NOW(), NOW()),
-    (105, 2, '경영대학', 'COLLEGE', 1, NULL, NOW(), NOW()),
-    (106, 2, '사범대학', 'COLLEGE', 1, NULL, NOW(), NOW()),
-    (107, 2, '의과대학', 'COLLEGE', 1, NULL, NOW(), NOW()),
-    (108, 2, '약학대학', 'COLLEGE', 1, NULL, NOW(), NOW()),
-    (109, 2, '예술대학', 'COLLEGE', 1, NULL, NOW(), NOW()),
-    (110, 2, '국제학부', 'COLLEGE', 1, NULL, NOW(), NOW());
+    (100,2,'부산대학교','UNIVERSITY',0,NULL, NOW(), NOW()),
+    (101, 2, '공과대학', 'COLLEGE', 1, 100, NOW(), NOW()),
+    (102, 2, '인문대학', 'COLLEGE', 1, 100, NOW(), NOW()),
+    (103, 2, '자연과학대학', 'COLLEGE', 1, 100, NOW(), NOW()),
+    (104, 2, '사회과학대학', 'COLLEGE', 1, 100, NOW(), NOW()),
+    (105, 2, '경영대학', 'COLLEGE', 1, 100, NOW(), NOW()),
+    (106, 2, '사범대학', 'COLLEGE', 1, 100, NOW(), NOW()),
+    (107, 2, '의과대학', 'COLLEGE', 1, 100, NOW(), NOW()),
+    (108, 2, '약학대학', 'COLLEGE', 1, 100, NOW(), NOW()),
+    (109, 2, '예술대학', 'COLLEGE', 1, 100, NOW(), NOW()),
+    (110, 2, '국제학부', 'COLLEGE', 1, 100, NOW(), NOW());
 
 
 
