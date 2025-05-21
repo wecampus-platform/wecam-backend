@@ -1,23 +1,26 @@
 package org.example.wecambackend.controller.admin;
 
+import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import lombok.RequiredArgsConstructor;
+import org.example.wecambackend.config.security.UserDetailsImpl;
+import org.example.wecambackend.config.security.annotation.CurrentUser;
+import org.example.wecambackend.config.security.annotation.HasAffiliationApprovalAuthority;
 import org.example.wecambackend.config.security.annotation.IsCouncil;
 import org.example.wecambackend.dto.responseDTO.AffiliationVerificationResponse;
 import org.example.wecambackend.exception.UnauthorizedException;
 import org.example.wecambackend.model.Council;
+import org.example.wecambackend.model.affiliation.AffiliationCertificationId;
+import org.example.wecambackend.model.enums.AuthenticationType;
 import org.example.wecambackend.repos.affiliation.AffiliationCertificationRepository;
 import org.example.wecambackend.service.admin.AffiliationCertificationAdminService;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
-@Controller
+@RestController
 @RequestMapping("/admin/council/{councilName}/affiliation")
 @RequiredArgsConstructor
 @IsCouncil
@@ -25,8 +28,10 @@ import java.util.List;
 public class AffiliationCertificationController {
     private final AffiliationCertificationAdminService affiliationCertificationAdminService;
 
+    @Operation(
+            summary = "학생회 관리자 페이지 소속 인증 정보 리스트 조회 요청",
+            description = "해당 학생회가 관리하는 조직으로 들어온 소속 인증 요청 전부 조회")
     @GetMapping("/requests")
-    @Tag(name = "Affiliation Certification Controller", description = "학생회 관리자 페이지 안에서 소속 인증 요청 확인 하기 버튼을 눌렀을 때 보이는 조회셀_조직별로 신청서 조회이므로, 인증요청서 타입별 뷰는 프론트에서 해야함.")
     public ResponseEntity<List<AffiliationVerificationResponse>> getAffiliationRequests(
             @PathVariable String councilName, // ← 화면용
             @RequestParam("councilId") Long councilId
@@ -38,17 +43,24 @@ public class AffiliationCertificationController {
         return ResponseEntity.ok(list);
     }
 
-//    @GetMapping("/test/requests")
-//    @Tag(name = "test", description = "학생회 관리자 페이지 안에서 소속 인증 요청 확인 하기 버튼을 눌렀을 때 보이는 조회셀_조직별로 신청서 조회이므로, 인증요청서 타입별 뷰는 프론트에서 해야함.")
-//    public ResponseEntity<List<AffiliationVerificationResponse>> testGetAffiliationRequests() {
-//        // Step 1: 임시 조직 ID
-//        Long mockOrganizationId = 303L;
-//
-//        // Step 2: 서비스 호출
-//        return ResponseEntity.ok(
-//                affiliationCertificationAdminService.getRequestsForOrganization(mockOrganizationId)
-//        );
-//    }
+
+    @HasAffiliationApprovalAuthority
+    @Operation(
+            summary = "학생회 관리자 페이지 소속 인증 요청 승인",
+            description = "해당 학생회가 관리하는 조직으로 들어온 소속 인증 요청 승인을 진행함. ")
+    @PostMapping("/approve")
+    public ResponseEntity<?> approveAffiliationRequest(
+            @RequestParam("userId") Long userId,
+            @RequestParam("authType") AuthenticationType authType,
+            @RequestParam("councilId") Long councilId,
+            @CurrentUser UserDetailsImpl currentUser
+    ) {
+        AffiliationCertificationId id = new AffiliationCertificationId(userId, authType);
+
+        affiliationCertificationAdminService.approveAffiliationRequest(id, councilId, currentUser);
+        return ResponseEntity.ok("소속 인증 요청이 승인되었습니다.");
+    }
+
 
 
 }

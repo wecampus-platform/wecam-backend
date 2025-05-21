@@ -1,15 +1,20 @@
 package org.example.wecambackend.exception;
 
 import org.example.wecambackend.exception.dto.ErrorResponse;
+import org.springframework.core.Ordered;
+import org.springframework.core.annotation.Order;
 import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.AccessDeniedException;
+import org.springframework.web.bind.annotation.ControllerAdvice;
 import org.springframework.web.bind.annotation.ExceptionHandler;
+import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.RestControllerAdvice;
 
 //TODO : 왠지모르겠지만 이거 주석 처리 하니까 잘 뜸...Swagger 추후 다시 주석 풀어야됨.
 //@RestControllerAdvice
+//@Order(Ordered.HIGHEST_PRECEDENCE)
 public class GlobalExceptionHandler {
 
     // 1. 접근 권한 예외 처리
@@ -46,6 +51,7 @@ public class GlobalExceptionHandler {
 
     // 4. 로그인 필요 메세지
     @ExceptionHandler(UnauthorizedException.class)
+    @ResponseBody
     public ResponseEntity<ErrorResponse> handleUnauthorizedException(UnauthorizedException ex) {
         ErrorResponse error = new ErrorResponse(
                 HttpStatus.UNAUTHORIZED.value(), // 401

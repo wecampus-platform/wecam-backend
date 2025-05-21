@@ -17,3 +17,7 @@ WHERE authentication_type = '1';
 
 SELECT * FROM affiliation_file
 WHERE pk_upload_userid = 1 AND authentication_type = 'NEW_STUDENT';
+
+
+ALTER TABLE affiliation_certification ADD COLUMN user_name VARCHAR(255);
+ALTER TABLE user MODIFY expires_at DATETIME NULL;

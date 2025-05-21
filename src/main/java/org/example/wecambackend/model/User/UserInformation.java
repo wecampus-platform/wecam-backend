@@ -56,5 +56,6 @@ public class UserInformation extends BaseTimeEntity {
 
     @Column(name = "is_council_fee", nullable = false)
     private Boolean isCouncilFee;
-    // 생략된 부분 추가 가능
+
+
 }
