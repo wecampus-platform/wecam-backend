@@ -55,6 +55,9 @@ public class AffiliationCertification {
     @Column(name = "reason", columnDefinition = "TEXT")
     private String reason;
 
+    @Column(name = "user_name", length = 20)
+    private String username;
+
     @Column(name = "requested_at")
     private LocalDateTime requestedAt;
 
@@ -74,5 +77,19 @@ public class AffiliationCertification {
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "organization_pk_id")
     private Organization organization;
+
+
+    //소속 인증 승인 처리
+    public void approve(User reviewer) {
+        this.status = AuthenticationStatus.APPROVED;
+        this.reviewUser = reviewer;
+        this.reviewedAt = LocalDateTime.now();
+    }
+
+    //소속인증 처리 확인
+    public boolean isApprovable() {
+        return this.status == AuthenticationStatus.PENDING;
+    }
+
 
 }

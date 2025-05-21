@@ -17,7 +17,9 @@
 
 <div id="afterLogin" style="display:none;">
     <p>로그인 성공!</p>
-    <button onclick="goToAffiliation()">소속 인증 요청 페이지로</button>
+    <button onclick="goToAffiliation()">소속 인증 조회  페이지로</button>
+    <button onclick="goToAffiliationApprove()">소속 인증 승인 페이지로</button>
+
 </div>
 
 <p id="result"></p>
@@ -60,5 +62,9 @@
 
     function goToAffiliation() {
         window.location.href = "/affiliation_test.html";
+    }
+
+    function goToAffiliationApprove() {
+        window.location.href = "/affiliation_approve_test.html";
     }
 </script>

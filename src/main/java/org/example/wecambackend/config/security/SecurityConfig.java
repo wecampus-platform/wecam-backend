@@ -34,6 +34,7 @@ public class SecurityConfig {
                 "/affiliation_test.html",
                 "/login_example.html",
                 "/signup_example.html",
+                "/affiliation_approve_test.html",
                 "/freshman_cert_example.html",
                 "/css/**",
                 "/js/**",
@@ -59,8 +60,8 @@ public class SecurityConfig {
                 .cors(cors -> cors.configurationSource(request -> {
                     CorsConfiguration config = new CorsConfiguration();
                     config.setAllowedOriginPatterns(List.of("*")); // 모든 Origin 허용
-                    config.setAllowedMethods(List.of("GET", "POST", "PUT", "DELETE", "OPTIONS"));
-                    config.setAllowedHeaders(List.of("Authorization", "Content-Type"));
+                    config.setAllowedMethods(List.of("*"));
+                    config.setAllowedHeaders(List.of("*"));
                     config.setAllowCredentials(true);
                     return config;
                 })) //Test 용 위에껀 프론트 연결용

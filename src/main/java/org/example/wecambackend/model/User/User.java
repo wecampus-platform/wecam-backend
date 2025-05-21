@@ -31,7 +31,7 @@ public class User {
     private String email;
 
     /** 계정 만료일 (가입일 기준 30일 후 자동 설정됨) */
-    @Column(name = "expires_at", nullable = false)
+    @Column(name = "expires_at")
     private LocalDateTime expiresAt;
 
     /** 계정 생성일 */

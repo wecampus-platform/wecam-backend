@@ -10,7 +10,7 @@ import org.example.wecambackend.model.User.User;
 import org.example.wecambackend.repos.UserRepository;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.context.SecurityContextHolder;
-import org.springframework.security.core.userdetails.UserDetailsService;
+import org.example.wecambackend.config.security.context.CurrentUserContext;
 import org.springframework.security.web.authentication.WebAuthenticationDetailsSource;
 import org.springframework.stereotype.Component;
 import org.springframework.web.filter.OncePerRequestFilter;
@@ -37,6 +37,7 @@ public class JwtAuthenticationFilter extends OncePerRequestFilter {
         if (uri.equals("/affiliation-test.html")
                 || uri.startsWith("/public/")
                 || uri.equals("/login_example.html")
+                || uri.equals("/affiliation_approve_test.html")
                 || uri.startsWith("/css/")
                 || uri.startsWith("/js/")
                 || uri.startsWith("/images/")) {
@@ -75,6 +76,7 @@ public class JwtAuthenticationFilter extends OncePerRequestFilter {
                 );
 
                 SecurityContextHolder.getContext().setAuthentication(authentication);
+                CurrentUserContext.set(userDetails);
             }
         }
 

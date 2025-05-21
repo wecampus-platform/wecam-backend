@@ -102,6 +102,7 @@ public class AffiliationService {
                 .requestedAt(LocalDateTime.now())
                 .organization(organization)
                 .university(school)
+                 .username(signupInfo.getName())
                 .build();
 
         affiliationCertificationRepository.save(cert);

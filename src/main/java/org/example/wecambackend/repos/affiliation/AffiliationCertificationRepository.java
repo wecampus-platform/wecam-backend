@@ -5,6 +5,7 @@ import org.example.wecambackend.model.Organization;
 import org.example.wecambackend.model.User.User;
 //import org.example.wecambackend.model.affiliation.AffiliationCertification;
 import org.example.wecambackend.model.affiliation.AffiliationCertification;
+import org.example.wecambackend.model.affiliation.AffiliationCertificationId;
 import org.example.wecambackend.model.enums.AuthenticationType;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
@@ -13,7 +14,7 @@ import org.springframework.data.repository.query.Param;
 import java.util.List;
 
 public interface AffiliationCertificationRepository extends
-        JpaRepository<AffiliationCertification, Long>{ // ← 이거 추가!
+        JpaRepository<AffiliationCertification, AffiliationCertificationId>{
 
 
     //조직별 요청서 확인
