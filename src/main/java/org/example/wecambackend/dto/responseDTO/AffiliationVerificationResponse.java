@@ -32,7 +32,6 @@ public class AffiliationVerificationResponse {
             String schoolName,
             String organizationName,
             String enrollYear,
-            String studentEmail,
             String ocrResult,
             String status,
             LocalDateTime requestedAt,
@@ -44,7 +43,6 @@ public class AffiliationVerificationResponse {
         this.schoolName = schoolName;
         this.organizationName = organizationName;
         this.enrollYear = enrollYear;
-        this.studentEmail = studentEmail;
         this.ocrResult = ocrResult;
         this.status = status;
         this.requestedAt = requestedAt;

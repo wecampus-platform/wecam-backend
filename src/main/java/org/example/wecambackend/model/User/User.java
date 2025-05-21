@@ -3,6 +3,7 @@ package org.example.wecambackend.model.User;
 import jakarta.persistence.*;
 import lombok.*;
 import org.example.wecambackend.model.Organization;
+import org.example.wecambackend.model.University;
 import org.example.wecambackend.model.enums.UserRole;
 
 import java.time.LocalDateTime;
@@ -61,8 +62,11 @@ public class User {
     /** 소속된 조직 (학과, 단과대 등) - 다대일 매핑 */
     //기본적으로 nullable = true --> 소속 인증 후 연결
     @ManyToOne
-    @JoinColumn(name = "organization_id")
+    @JoinColumn(name = "organization")
     private Organization organization;
+
+    @Column(name = "organization_id", insertable = false, updatable = false)
+    private Long organizationId;
 
     /** 사용자 역할 (UserRole 참고) */
     @Enumerated(EnumType.STRING)
@@ -89,6 +93,15 @@ public class User {
     @PreUpdate
     protected void onUpdate() {
         this.updatedAt = LocalDateTime.now();
+    }
+
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "school_id")
+    private University university;
+
+    public void setOrganization(Organization organization) {
+        this.organization = organization;
+        this.organizationId = organization != null ? organization.getOrganizationId() : null;
     }
 
 }

@@ -31,6 +31,21 @@ public class JwtAuthenticationFilter extends OncePerRequestFilter {
             throws ServletException, IOException {
 
         String authHeader = request.getHeader("Authorization");
+        String uri = request.getRequestURI();
+
+        // 여기서 특정 경로는 토큰 검사 제외
+        if (uri.equals("/affiliation-test.html")
+                || uri.startsWith("/public/")
+                || uri.equals("/login_example.html")
+                || uri.startsWith("/css/")
+                || uri.startsWith("/js/")
+                || uri.startsWith("/images/")) {
+            filterChain.doFilter(request, response);
+            return;
+        }
+
+        System.out.println("[JwtFilter] 요청 URI: " + uri);
+        System.out.println("[JwtFilter] Authorization 헤더: " + authHeader);
 
         if (authHeader != null && authHeader.startsWith("Bearer ")) {
             String token = authHeader.substring(7);
@@ -45,7 +60,7 @@ public class JwtAuthenticationFilter extends OncePerRequestFilter {
                         user.getUserPkId(),
                         user.getEmail(),
                         user.getRole(),
-                        user.getOrganization().getOrganizationId()
+                        user.getOrganizationId()
                 );
 
                 UsernamePasswordAuthenticationToken authentication =

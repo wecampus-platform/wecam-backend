@@ -22,8 +22,8 @@ public class AffiliationCertificationId implements Serializable {
     @Column(name = "pk_upload_userid")
     private Long userId;
 
-    @Column(name = "authentication_type")
     @Enumerated(EnumType.STRING)
+    @Column(name = "authentication_type")
     private AuthenticationType authenticationType;
 
     // 기본 생성자, equals, hashCode 필수

@@ -39,7 +39,7 @@ public class FileStorageService {
             file.transferTo(savePath.toFile());
 
             System.out.println("저장된 경로: " + savePath);
-            return savePath.toString();
+            return "/uploads/" + storedFileName;
 
         } catch (IOException e) {
             throw new RuntimeException("파일 저장 중 오류 발생", e);
