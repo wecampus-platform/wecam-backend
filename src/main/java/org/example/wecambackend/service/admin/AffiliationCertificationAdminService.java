@@ -1,9 +1,11 @@
 package org.example.wecambackend.service.admin;
 
 import lombok.RequiredArgsConstructor;
+import org.example.wecambackend.dto.projection.AffiliationFileProjection;
 import org.example.wecambackend.dto.responseDTO.AffiliationVerificationResponse;
 import org.example.wecambackend.model.Council;
 import org.example.wecambackend.model.affiliation.AffiliationCertification;
+import org.example.wecambackend.model.affiliation.AffiliationCertificationId;
 import org.example.wecambackend.model.enums.AuthenticationType;
 import org.example.wecambackend.repos.CouncilRepository;
 import org.example.wecambackend.repos.affiliation.AffiliationCertificationRepository;
@@ -27,21 +29,21 @@ public class AffiliationCertificationAdminService {
         return certifications.stream().map(ac -> {
             // 복합키 구성 정보
             Long userId = ac.getId().getUserId();
-            AuthenticationType authType = ac.getId().getAuthenticationType();
-
-            Optional<AffiliationFile> optionalFile = affiliationFileRepository
-                    .findByAffiliationCertification_Id_UserIdAndAffiliationCertification_Id_AuthenticationType(userId, authType);
-
+            AuthenticationType authenticationType = ac.getId().getAuthenticationType();
+            AffiliationCertificationId id = ac.getId();
+//            Optional<AffiliationFile> optionalFile = affiliationFileRepository
+//                    .findByUserIdAndAuthOrdinal(userId,ac.getAuthenticationType().ordinal());
+            Optional<AffiliationFileProjection> optionalFile = affiliationFileRepository.findFilePathAndNameByUserIdAndAuthOrdinal(userId, authenticationType.ordinal());
+            System.out.println("조회된 파일: " + optionalFile);
             String filePath = optionalFile.map(file -> file.getFilePath()).orElse(null);
 
             return new AffiliationVerificationResponse(
                     userId,
-                    authType.name(),
+                    authenticationType.name(),
                     ac.getOcrUserName(),
                     ac.getOcrSchoolName(),
                     ac.getOcrOrganizationName(),
                     ac.getOcrEnrollYear(),
-                    ac.getUser().getEmail(),
                     ac.getOcrResult().name(),
                     ac.getStatus().name(),
                     ac.getRequestedAt(),

@@ -4,7 +4,6 @@
     <meta charset="UTF-8">
     <title>로그인 테스트</title>
 </head>
-<body>
 <h2>WeCam 로그인</h2>
 <form id="loginForm">
     <label for="email">이메일:</label><br>
@@ -16,11 +15,17 @@
     <button type="submit">로그인</button>
 </form>
 
+<div id="afterLogin" style="display:none;">
+    <p>로그인 성공!</p>
+    <button onclick="goToAffiliation()">소속 인증 요청 페이지로</button>
+</div>
+
 <p id="result"></p>
 
 <script>
     const form = document.getElementById('loginForm');
     const result = document.getElementById('result');
+    const afterLogin = document.getElementById('afterLogin');
 
     form.addEventListener('submit', async (e) => {
         e.preventDefault();
@@ -42,16 +47,18 @@
             const data = await response.json();
 
             if (response.ok) {
-                result.innerText = `✅ 로그인 성공: ${data.role}`;
-                console.log("accessToken:", data.accessToken);
+                result.innerText = `로그인 성공: ${data.role} ${data.accessToken}`;
                 localStorage.setItem('accessToken', data.accessToken);
+                afterLogin.style.display = 'block';
             } else {
-                result.innerText = `❌ 실패: ${data.message || '로그인 실패'}`;
+                result.innerText = `실패: ${data.message || '로그인 실패'}`;
             }
         } catch (err) {
-            result.innerText = '🚨 네트워크 에러';
+            result.innerText = '네트워크 에러';
         }
     });
+
+    function goToAffiliation() {
+        window.location.href = "/affiliation_test.html";
+    }
 </script>
-</body>
-</html>

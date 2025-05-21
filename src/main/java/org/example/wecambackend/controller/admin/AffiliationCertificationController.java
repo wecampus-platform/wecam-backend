@@ -18,10 +18,9 @@ import org.springframework.web.bind.annotation.RequestParam;
 import java.util.List;
 
 @Controller
+@RequestMapping("/admin/council/{councilName}/affiliation")
 @RequiredArgsConstructor
-@RequestMapping("/admin/council/{councilname}/affiliation")
-//@RequestMapping("/admin")
-//@IsCouncil
+@IsCouncil
 @Tag(name = "Affiliation Certification Controller", description = "학생회 관리자 페이지 안에서 소속 인증 관련 정보")
 public class AffiliationCertificationController {
     private final AffiliationCertificationAdminService affiliationCertificationAdminService;
