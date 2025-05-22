@@ -8,6 +8,7 @@ import org.example.wecambackend.model.User.User;
 import org.example.wecambackend.model.enums.AuthenticationStatus;
 import org.example.wecambackend.model.enums.AuthenticationType;
 import org.example.wecambackend.model.enums.OcrResult;
+import org.hibernate.type.descriptor.jdbc.TinyIntJdbcType;
 
 import java.time.LocalDateTime;
 
@@ -32,8 +33,8 @@ public class AffiliationCertification {
     @Column(name = "authentication_type", insertable = false, updatable = false)
     private AuthenticationType authenticationType;
 
-    @Column(name="school_grade",nullable = false)
-    private int school_grade;
+    @Column(name="ocr_school_grade",nullable = false)
+    private int ocrschoolGrade;
 
     @Enumerated(EnumType.STRING)
     @Column(name = "ocr_result", nullable = false)
@@ -67,11 +68,9 @@ public class AffiliationCertification {
     @Column(name = "reviewed_at")
     private LocalDateTime reviewedAt;
 
-
     @ManyToOne
     @JoinColumn(name = "pk_reviewer_userid")
     private User reviewUser;
-
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "school_pk_id")

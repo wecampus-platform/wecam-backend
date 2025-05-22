@@ -39,7 +39,7 @@ public class UserInformation extends BaseTimeEntity {
     private University university;
 
     @Column(name = "student_grade")
-    private Byte studentGrade;
+    private int studentGrade; //학년
 
     @Enumerated(EnumType.STRING)
     @Column(name = "academic_status")
@@ -56,6 +56,5 @@ public class UserInformation extends BaseTimeEntity {
 
     @Column(name = "is_council_fee", nullable = false)
     private Boolean isCouncilFee;
-
 
 }

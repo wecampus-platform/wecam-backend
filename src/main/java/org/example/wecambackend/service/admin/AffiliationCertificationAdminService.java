@@ -88,9 +88,10 @@ public class AffiliationCertificationAdminService {
         AuthenticationType type = cert.getAuthenticationType();
         User reviewUser = userRepository.findById(currentUser.getId())
                 .orElseThrow(() -> new RuntimeException("리뷰어 유저 없음"));
+        String enrollYear = cert.getOcrEnrollYear();
         markApproved(cert,reviewUser);
         userInformationService.createUserInformation(uploadUser, cert, type);
-        userService.updateUserRoleAndStatus(uploadUser, cert.getOrganization(),cert.getUniversity(), type);
+        userService.updateUserRoleAndStatus(uploadUser, cert.getOrganization(),cert.getUniversity(), type, enrollYear);
         log.info("[소속 인증 승인] {}가 {}의 인증 요청을 승인함",
                 reviewUser.getEmail(),
                 uploadUser.getEmail());

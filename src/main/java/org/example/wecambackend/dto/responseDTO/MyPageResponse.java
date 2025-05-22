@@ -15,6 +15,6 @@ public class MyPageResponse {
     private Long organizationId; // 학교 단과대학 학과 이름
     private Boolean academicStatus; //학적 상태
     private UserRole role;
-    private int student_grade; //학년은 재학생 인증으로 INformation테이블이 만들어졌을 시
+    private int student_grade;
 
 }

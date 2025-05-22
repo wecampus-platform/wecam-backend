@@ -61,7 +61,7 @@ public class User {
 
     /** 소속된 조직 (학과, 단과대 등) - 다대일 매핑 */
     //기본적으로 nullable = true --> 소속 인증 후 연결
-    @ManyToOne
+    @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "organization")
     private Organization organization;
 
@@ -76,6 +76,11 @@ public class User {
     /** 시스템 슈퍼유저 여부 (True인 경우 플랫폼 전체 관리 권한) */
     @Column(name = "is_superuser", nullable = false)
     private Boolean isSuperuser;
+
+
+    //추가됨. ocr 인증 마치고 소속 인증 승인 받으면 들어가는 데이터
+    @Column(name="enroll_year",length = 4)
+    private String enrollYear;
 
     /** 최초 생성 시 자동 설정되는 값들 */
     @PrePersist

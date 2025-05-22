@@ -18,8 +18,9 @@ import java.time.LocalDateTime;
 @RequiredArgsConstructor
 public class UserService {
 
+    // TODO:  user.setOrganization(organization); 값 확인 해봐야 함. ORganizationId가 안들어가짐.
     private final UserRepository userRepository;
-    public void updateUserRoleAndStatus(User user, Organization organization, University university, AuthenticationType authenticationType) {
+    public void updateUserRoleAndStatus(User user, Organization organization, University university, AuthenticationType authenticationType,String enrollYear) {
         UserRole beforeRole = user.getRole();
         if (authenticationType == AuthenticationType.NEW_STUDENT) {
             user.setRole(UserRole.GUEST_STUDENT); // enum 기반
@@ -27,6 +28,7 @@ public class UserService {
         else {
             user.setRole(UserRole.STUDENT);
         }
+        user.setEnrollYear(enrollYear);
         if (!beforeRole.equals(user.getRole())) {
             user.setExpiresAt(null); // TODO : 우선 ROLE 이 바뀌면 ExpiresAt은 비활성화 시켰음.
         }

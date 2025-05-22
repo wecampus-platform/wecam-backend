@@ -4,6 +4,7 @@ import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
+import org.hibernate.type.descriptor.jdbc.TinyIntJdbcType;
 
 @Getter
 @Builder
@@ -14,4 +15,5 @@ public class OcrResultResponse {
     private String schoolName;
     private String orgName;
     private String enrollYear;
+    private int schoolGrade;
 }

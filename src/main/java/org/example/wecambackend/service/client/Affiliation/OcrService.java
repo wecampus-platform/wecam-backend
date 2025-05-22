@@ -39,7 +39,7 @@ public class OcrService {
             headers.setContentType(MediaType.MULTIPART_FORM_DATA);
 
             HttpEntity<MultiValueMap<String, Object>> requestEntity = new HttpEntity<>(body, headers);
-
+            //userName , schoolName , orgName , enrollYear , schoolGrade 넘어오게 해놨음.
             ResponseEntity<Map> response = restTemplate.exchange(
                     ocrApiUrl, HttpMethod.POST, requestEntity, Map.class
             );
