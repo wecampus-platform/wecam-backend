@@ -20,4 +20,5 @@ public class MyPageResponse {
     private Boolean isCouncilFee; // 학생회비 인증 완료했는지 여부
     private Boolean nickName; //닉네임
     private Boolean studentId; //학번
+
 }
