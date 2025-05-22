@@ -103,5 +103,4 @@ public class User {
         this.organization = organization;
         this.organizationId = organization != null ? organization.getOrganizationId() : null;
     }
-
 }

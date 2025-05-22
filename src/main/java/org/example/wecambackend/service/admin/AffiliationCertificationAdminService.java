@@ -89,7 +89,7 @@ public class AffiliationCertificationAdminService {
         User reviewUser = userRepository.findById(currentUser.getId())
                 .orElseThrow(() -> new RuntimeException("리뷰어 유저 없음"));
         markApproved(cert,reviewUser);
-        userInformationService.createUserInformation(uploadUser, cert);
+        userInformationService.createUserInformation(uploadUser, cert, type);
         userService.updateUserRoleAndStatus(uploadUser, cert.getOrganization(),cert.getUniversity(), type);
         log.info("[소속 인증 승인] {}가 {}의 인증 요청을 승인함",
                 reviewUser.getEmail(),

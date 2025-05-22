@@ -32,6 +32,9 @@ public class AffiliationCertification {
     @Column(name = "authentication_type", insertable = false, updatable = false)
     private AuthenticationType authenticationType;
 
+    @Column(name="school_grade",nullable = false)
+    private int school_grade;
+
     @Enumerated(EnumType.STRING)
     @Column(name = "ocr_result", nullable = false)
     private OcrResult ocrResult;
