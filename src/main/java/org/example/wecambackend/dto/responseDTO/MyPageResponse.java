@@ -16,5 +16,8 @@ public class MyPageResponse {
     private Boolean academicStatus; //학적 상태
     private UserRole role;
     private int student_grade;
-
+    private Boolean isAuthentication; //소속인증을 완료했는지 여부
+    private Boolean isCouncilFee; // 학생회비 인증 완료했는지 여부
+    private Boolean nickName; //닉네임
+    private Boolean studentId; //학번
 }

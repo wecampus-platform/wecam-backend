@@ -32,6 +32,7 @@ public class UserService {
         if (!beforeRole.equals(user.getRole())) {
             user.setExpiresAt(null); // TODO : 우선 ROLE 이 바뀌면 ExpiresAt은 비활성화 시켰음.
         }
+        user.setAuthentication(true);
         user.setUniversity(university);
         user.setOrganization(organization);
 

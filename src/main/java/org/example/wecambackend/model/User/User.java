@@ -65,7 +65,7 @@ public class User {
     @JoinColumn(name = "organization")
     private Organization organization;
 
-    @Column(name = "organization_id", insertable = false, updatable = false)
+    @Column(name = "organization_id")
     private Long organizationId;
 
     /** 사용자 역할 (UserRole 참고) */
@@ -106,6 +106,9 @@ public class User {
 
     public void setOrganization(Organization organization) {
         this.organization = organization;
-        this.organizationId = organization != null ? organization.getOrganizationId() : null;
+        if (organization == null) {
+            throw new IllegalArgumentException("organization은 null일 수 없습니다.");
+        }
+        this.organizationId =  organization.getOrganizationId();
     }
 }

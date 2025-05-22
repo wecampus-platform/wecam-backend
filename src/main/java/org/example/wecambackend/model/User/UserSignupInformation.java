@@ -53,5 +53,4 @@ public class UserSignupInformation extends BaseTimeEntity {
     @Builder.Default
     private Boolean isMakeWorkspace = false;
 
-
 }
