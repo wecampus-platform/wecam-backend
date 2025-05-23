@@ -1,11 +1,15 @@
 package org.example.wecambackend.dto.responseDTO;
 
 
-import lombok.AllArgsConstructor;
-import lombok.Getter;
+import lombok.*;
+import org.example.wecambackend.model.enums.AcademicStatus;
 import org.example.wecambackend.model.enums.UserRole;
 
-@Getter
+import java.util.List;
+
+@Getter @Setter
+@Builder
+@NoArgsConstructor
 @AllArgsConstructor
 public class MyPageResponse {
     private String username; //이름
@@ -13,12 +17,15 @@ public class MyPageResponse {
     private String userEmail; //아이디 이메일
     private Long universityId; //학교 아이디
     private Long organizationId; // 학교 단과대학 학과 이름
-    private Boolean academicStatus; //학적 상태
+    private AcademicStatus academicStatus; //학적 상태
     private UserRole role;
     private int student_grade;
     private Boolean isAuthentication; //소속인증을 완료했는지 여부
     private Boolean isCouncilFee; // 학생회비 인증 완료했는지 여부
-    private Boolean nickName; //닉네임
-    private Boolean studentId; //학번
+    private String nickName; //닉네임
+    private String studentId; //학번
+
+    private List<String> organizationHierarchyList; // 전체 조직 이름 뜨게 하기
+
 
 }
