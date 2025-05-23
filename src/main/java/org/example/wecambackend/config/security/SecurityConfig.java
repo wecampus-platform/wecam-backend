@@ -36,6 +36,7 @@ public class SecurityConfig {
                 "/signup_example.html",
                 "/affiliation_approve_test.html",
                 "/freshman_cert_example.html",
+                "/mypage_example.html",
                 "/css/**",
                 "/js/**",
                 "/images/**"

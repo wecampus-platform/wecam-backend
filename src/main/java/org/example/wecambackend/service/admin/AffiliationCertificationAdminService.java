@@ -7,11 +7,15 @@ import org.example.wecambackend.dto.projection.AffiliationFileProjection;
 import org.example.wecambackend.dto.responseDTO.AffiliationVerificationResponse;
 import org.example.wecambackend.exception.UnauthorizedException;
 import org.example.wecambackend.model.Council;
+import org.example.wecambackend.model.Organization;
+import org.example.wecambackend.model.University;
 import org.example.wecambackend.model.User.User;
 import org.example.wecambackend.model.affiliation.AffiliationCertification;
 import org.example.wecambackend.model.affiliation.AffiliationCertificationId;
 import org.example.wecambackend.model.enums.AuthenticationType;
 import org.example.wecambackend.repos.CouncilRepository;
+import org.example.wecambackend.repos.OrganizationRepository;
+import org.example.wecambackend.repos.SchoolRepository;
 import org.example.wecambackend.repos.UserRepository;
 import org.example.wecambackend.repos.affiliation.AffiliationCertificationRepository;
 import org.example.wecambackend.repos.affiliation.AffiliationFileRepository;
@@ -44,7 +48,6 @@ public class AffiliationCertificationAdminService {
             // 복합키 구성 정보
             Long userId = ac.getId().getUserId();
             AuthenticationType authenticationType = ac.getId().getAuthenticationType();
-            AffiliationCertificationId id = ac.getId();
 
             Optional<AffiliationFileProjection> optionalFile = affiliationFileRepository.findFilePathAndNameByUserIdAndAuthOrdinal(userId, authenticationType.ordinal());
             System.out.println("조회된 파일: " + optionalFile);
@@ -88,9 +91,17 @@ public class AffiliationCertificationAdminService {
         AuthenticationType type = cert.getAuthenticationType();
         User reviewUser = userRepository.findById(currentUser.getId())
                 .orElseThrow(() -> new RuntimeException("리뷰어 유저 없음"));
+        String enrollYear = cert.getOcrEnrollYear();
+
+        Organization organization = organizationRepository.findByOrganizationId(cert.getOrganization().getOrganizationId())
+                        .orElseThrow(()-> new IllegalArgumentException("해당 조직을 찾을 수 없습니다."));
+        University university = schoolRepository.findBySchoolId(cert.getUniversity().getSchoolId())
+                .orElseThrow(()-> new IllegalArgumentException("해당 학교를 찾을 수 없습니다."));
+
+        System.out.println(organization.getOrganizationName());
         markApproved(cert,reviewUser);
-        userInformationService.createUserInformation(uploadUser, cert);
-        userService.updateUserRoleAndStatus(uploadUser, cert.getOrganization(),cert.getUniversity(), type);
+        userInformationService.createUserInformation(uploadUser, cert, type);
+        userService.updateUserRoleAndStatus(uploadUser, organization,university, type, enrollYear);
         log.info("[소속 인증 승인] {}가 {}의 인증 요청을 승인함",
                 reviewUser.getEmail(),
                 uploadUser.getEmail());
@@ -105,4 +116,6 @@ public class AffiliationCertificationAdminService {
         affiliationCertificationRepository.save(cert); // dirty checking 보장 안되면 save
     }
 
+    private final OrganizationRepository organizationRepository;
+    private final SchoolRepository schoolRepository;
 }

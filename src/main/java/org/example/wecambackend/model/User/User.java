@@ -61,11 +61,11 @@ public class User {
 
     /** 소속된 조직 (학과, 단과대 등) - 다대일 매핑 */
     //기본적으로 nullable = true --> 소속 인증 후 연결
-    @ManyToOne
+    @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "organization")
     private Organization organization;
 
-    @Column(name = "organization_id", insertable = false, updatable = false)
+    @Column(name = "organization_id")
     private Long organizationId;
 
     /** 사용자 역할 (UserRole 참고) */
@@ -76,6 +76,11 @@ public class User {
     /** 시스템 슈퍼유저 여부 (True인 경우 플랫폼 전체 관리 권한) */
     @Column(name = "is_superuser", nullable = false)
     private Boolean isSuperuser;
+
+
+    //추가됨. ocr 인증 마치고 소속 인증 승인 받으면 들어가는 데이터
+    @Column(name="enroll_year",length = 4)
+    private String enrollYear;
 
     /** 최초 생성 시 자동 설정되는 값들 */
     @PrePersist
@@ -101,7 +106,9 @@ public class User {
 
     public void setOrganization(Organization organization) {
         this.organization = organization;
-        this.organizationId = organization != null ? organization.getOrganizationId() : null;
+        if (organization == null) {
+            throw new IllegalArgumentException("organization은 null일 수 없습니다.");
+        }
+        this.organizationId =  organization.getOrganizationId();
     }
-
 }

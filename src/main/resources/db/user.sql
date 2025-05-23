@@ -2,11 +2,11 @@
 INSERT INTO user (
     is_authentication, is_email_verified, is_superuser,
     created_at, expires_at, organization_id, updated_at,
-    email, role,organization,school_id
+    email, role,organization,school_id,enroll_year
 ) VALUES (
              1, 1, 0,
              NOW(), DATE_ADD(NOW(), INTERVAL 1 YEAR), 303, NOW(),
-             'president@example.com', 'COUNCIL',303,2
+             'president@example.com', 'COUNCIL',303,2,'2021'
          );
 
 INSERT INTO user_private (

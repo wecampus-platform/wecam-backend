@@ -4,10 +4,13 @@ import jakarta.persistence.*;
 import lombok.*;
 import org.example.wecambackend.model.common.BaseTimeEntity;
 import org.example.wecambackend.model.enums.OrganizationType;
-
+import org.hibernate.annotations.BatchSize;
 import java.util.ArrayList;
 import java.util.List;
 
+//N+1 쿼리 없애야돼서 lazy 로 묶어놔서 parent 찾을 때 막힘.
+//TODO: 추후 유지보수를 위해 변경해야될 수도 있음.
+@BatchSize(size = 5)
 @Entity
 @Table(name = "organization")
 @Getter

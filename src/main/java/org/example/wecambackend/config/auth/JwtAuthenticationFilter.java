@@ -38,6 +38,7 @@ public class JwtAuthenticationFilter extends OncePerRequestFilter {
                 || uri.startsWith("/public/")
                 || uri.equals("/login_example.html")
                 || uri.equals("/affiliation_approve_test.html")
+                || uri.equals("/mypage_example.html")
                 || uri.startsWith("/css/")
                 || uri.startsWith("/js/")
                 || uri.startsWith("/images/")) {
