@@ -12,6 +12,7 @@ import java.util.Optional;
 @Repository
 public interface UserPrivateRepository  extends JpaRepository<UserPrivate, User> {
 
+    //마이페이지 때 사용, 이때 비밀번호는 담기면 안되기 때문에 query 사용함.
     @Query("SELECT u.phoneNumber FROM UserPrivate u WHERE u.user.userPkId = :userId")
     Optional<String> findEncryptedPhoneNumberByUserId(@Param("userId") Long userId);
 }

@@ -16,6 +16,7 @@ public interface UserRepository extends JpaRepository<User, Long> {
     Optional<User> findByEmailWithPrivate(@Param("email") String email);
     boolean existsByEmail(String email);
 
+    // 마이페이지 때 사용 - organization 재사용성 을 위함.
     @Query("SELECT u FROM User u LEFT JOIN FETCH u.organization WHERE u.userPkId = :id")
     Optional<User> findByIdWithOrganization(@Param("id") Long id);
 

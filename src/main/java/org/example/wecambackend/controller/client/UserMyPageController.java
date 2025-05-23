@@ -4,7 +4,6 @@ package org.example.wecambackend.controller.client;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import lombok.RequiredArgsConstructor;
 import org.example.wecambackend.config.security.UserDetailsImpl;
-import org.example.wecambackend.config.security.annotation.CurrentUser;
 import org.example.wecambackend.dto.responseDTO.MyPageResponse;
 import org.example.wecambackend.service.client.MyPageService;
 import org.springframework.http.ResponseEntity;

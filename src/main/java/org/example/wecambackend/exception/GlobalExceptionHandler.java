@@ -1,5 +1,6 @@
 package org.example.wecambackend.exception;
 
+import io.swagger.v3.oas.annotations.Hidden;
 import org.example.wecambackend.exception.dto.ErrorResponse;
 import org.springframework.core.Ordered;
 import org.springframework.core.annotation.Order;
@@ -13,7 +14,9 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.RestControllerAdvice;
 
 //TODO : 왠지모르겠지만 이거 주석 처리 하니까 잘 뜸...Swagger 추후 다시 주석 풀어야됨.
-//@RestControllerAdvice
+//위에 문제 해결, HIDDEN 다니까 괜찮아짐.
+@Hidden
+@RestControllerAdvice
 //@Order(Ordered.HIGHEST_PRECEDENCE)
 public class GlobalExceptionHandler {
 
