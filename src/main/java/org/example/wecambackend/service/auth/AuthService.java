@@ -1,7 +1,12 @@
 package org.example.wecambackend.service.auth;
 
 import lombok.RequiredArgsConstructor;
+import org.example.wecambackend.common.exceptions.BaseException;
+import org.example.wecambackend.common.response.BaseResponseStatus;
 import org.example.wecambackend.config.auth.JwtTokenProvider;
+import org.example.wecambackend.dto.auth.EmailDuplicateCheckResponse;
+import org.example.wecambackend.dto.auth.EmailPhoneDuplicateCheckResponse;
+import org.example.wecambackend.dto.auth.PhoneDuplicateCheckResponse;
 import org.example.wecambackend.dto.auto.LoginRequest;
 import org.example.wecambackend.dto.auto.LoginResponse;
 import org.example.wecambackend.dto.requestDTO.StudentRegisterRequest;
@@ -111,4 +116,41 @@ public class AuthService {
     }
 
 
+    public EmailDuplicateCheckResponse validateDuplicatedEmail(String email) {
+        boolean isDuplicate = userRepository.existsByEmail(email);
+        if (isDuplicate) {
+            throw new BaseException(BaseResponseStatus.EMAIL_DUPLICATED,
+                    new EmailDuplicateCheckResponse(true));
+        }
+        return new EmailDuplicateCheckResponse(false);
+    }
+
+    public PhoneDuplicateCheckResponse validateDuplicatedPhoneNumber(String phone) {
+        String encryptedPhone = phoneEncryptor.encrypt(phone);
+        boolean isDuplicate = userPrivateRepository.existsByPhoneNumber(encryptedPhone);
+        if (isDuplicate) {
+            throw new BaseException(BaseResponseStatus.PHONE_DUPLICATED,
+                    new PhoneDuplicateCheckResponse(true));
+        }
+        return new PhoneDuplicateCheckResponse(false);
+    }
+
+    public EmailPhoneDuplicateCheckResponse validateDuplicatedBoth(String email, String phone) {
+        boolean emailDup = userRepository.existsByEmail(email);
+        String encryptedPhone = phoneEncryptor.encrypt(phone);
+        boolean phoneDup = userPrivateRepository.existsByPhoneNumber(encryptedPhone);
+
+        if (emailDup && phoneDup) {
+            throw new BaseException(BaseResponseStatus.EMAIL_PHONE_DUPLICATED,
+                    new EmailPhoneDuplicateCheckResponse(true, true));
+        } else if (emailDup) {
+            throw new BaseException(BaseResponseStatus.EMAIL_DUPLICATED,
+                    new EmailPhoneDuplicateCheckResponse(true, false));
+        } else if (phoneDup) {
+            throw new BaseException(BaseResponseStatus.PHONE_DUPLICATED,
+                    new EmailPhoneDuplicateCheckResponse(false, true));
+        }
+
+        return new EmailPhoneDuplicateCheckResponse(false, false);
+    }
 }

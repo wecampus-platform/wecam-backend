@@ -1,14 +1,14 @@
 package org.example.wecambackend.exception;
 
 import io.swagger.v3.oas.annotations.Hidden;
+import lombok.extern.slf4j.Slf4j;
+import org.example.wecambackend.common.exceptions.BaseException;
+import org.example.wecambackend.common.response.BaseResponse;
+import org.example.wecambackend.common.response.BaseResponseStatus;
 import org.example.wecambackend.exception.dto.ErrorResponse;
-import org.springframework.core.Ordered;
-import org.springframework.core.annotation.Order;
-import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.AccessDeniedException;
-import org.springframework.web.bind.annotation.ControllerAdvice;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.RestControllerAdvice;
@@ -17,6 +17,7 @@ import org.springframework.web.bind.annotation.RestControllerAdvice;
 //위에 문제 해결, HIDDEN 다니까 괜찮아짐.
 @Hidden
 @RestControllerAdvice
+@Slf4j
 //@Order(Ordered.HIGHEST_PRECEDENCE)
 public class GlobalExceptionHandler {
 
@@ -62,5 +63,17 @@ public class GlobalExceptionHandler {
                 "로그인 필요"
         );
         return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body(error);
+    }
+
+    /**
+     * BaseException 예외 처리 핸들러
+     *
+     * 서비스 계층 등에서 throw new BaseException(...)으로 발생시킨 예외를 처리합니다.
+     */
+    @ExceptionHandler(BaseException.class)
+    public BaseResponse<BaseResponseStatus> BaseExceptionHandle(BaseException exception) {
+        log.warn("BaseException. error message: {}", exception.getMessage());
+
+        return new BaseResponse(exception.getStatus(), exception.getData());
     }
 }

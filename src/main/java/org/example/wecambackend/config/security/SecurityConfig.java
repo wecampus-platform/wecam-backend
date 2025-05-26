@@ -73,7 +73,8 @@ public class SecurityConfig {
                                 "/v3/api-docs/**",
                                 "/swagger-resources/**",
                                 "/webjars/**",
-                                "/public/**"
+                                "/public/**",
+                                "/auth/check/**"
                         ).permitAll()
                         .requestMatchers("/admin/**").hasRole("COUNCIL")  // 특정 권한 필요
                         .anyRequest().authenticated()
