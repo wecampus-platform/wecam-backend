@@ -4,9 +4,10 @@ import lombok.RequiredArgsConstructor;
 import org.example.wecambackend.common.exceptions.BaseException;
 import org.example.wecambackend.common.response.BaseResponseStatus;
 import org.example.wecambackend.config.auth.JwtTokenProvider;
-import org.example.wecambackend.dto.auth.EmailDuplicateCheckResponse;
-import org.example.wecambackend.dto.auth.EmailPhoneDuplicateCheckResponse;
-import org.example.wecambackend.dto.auth.PhoneDuplicateCheckResponse;
+import org.example.wecambackend.dto.auth.response.EmailDuplicateCheckResponse;
+import org.example.wecambackend.dto.auth.response.EmailPhoneDuplicateCheckResponse;
+import org.example.wecambackend.dto.auth.response.JwtResponse;
+import org.example.wecambackend.dto.auth.response.PhoneDuplicateCheckResponse;
 import org.example.wecambackend.dto.auto.LoginRequest;
 import org.example.wecambackend.dto.auto.LoginResponse;
 import org.example.wecambackend.dto.requestDTO.StudentRegisterRequest;
@@ -59,7 +60,7 @@ public class AuthService {
 
         // JWT 발급
         String accessToken = jwtTokenProvider.generateAccessToken(user.getEmail(), role);
-        String refreshToken = jwtTokenProvider.generateRefreshToken();
+        String refreshToken = jwtTokenProvider.generateRefreshToken(user.getEmail());
 
         // RefreshToken Redis 저장
         redisTemplate.opsForValue().set("RT:" + user.getUserPkId(), refreshToken, 7, TimeUnit.DAYS);
@@ -152,5 +153,46 @@ public class AuthService {
         }
 
         return new EmailPhoneDuplicateCheckResponse(false, false);
+    }
+
+    public JwtResponse refreshJwt(String refreshToken) {
+        User user = getUserFromValidRefreshToken(refreshToken);
+
+        // 새 엑세스 토큰 발급
+        String accessToken = jwtTokenProvider.generateAccessToken(user.getEmail(), user.getRole().name());
+        return new JwtResponse(accessToken, refreshToken);
+    }
+
+    public void logout(String refreshToken) {
+        User user = getUserFromValidRefreshToken(refreshToken);
+
+        // Redis에서 삭제
+        redisTemplate.delete("RT:" + user.getUserPkId());
+    }
+
+
+    private User getUserFromValidRefreshToken(String refreshToken) {
+        if (refreshToken == null || refreshToken.isBlank()) {
+            throw new IllegalArgumentException("리프레시 토큰이 존재하지 않습니다.");
+        }
+
+        // JWT 유효성 검사
+        if (jwtTokenProvider.isTokenExpired(refreshToken)) {
+            throw new RuntimeException("리프레시 토큰이 만료되었습니다.");
+        }
+
+        // 토큰에서 이메일 추출
+        String email = jwtTokenProvider.getEmailFromToken(refreshToken);
+        User user = userRepository.findByEmailWithPrivate(email)
+                .orElseThrow(() -> new RuntimeException("사용자를 찾을 수 없습니다."));
+
+        String redisKey = "RT:" + user.getUserPkId();
+        String storedToken = redisTemplate.opsForValue().get(redisKey);
+
+        if (storedToken == null || !storedToken.equals(refreshToken)) {
+            throw new RuntimeException("서버에 저장된 리프레시 토큰과 일치하지 않습니다.");
+        }
+
+        return user;
     }
 }

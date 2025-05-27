@@ -74,7 +74,9 @@ public class SecurityConfig {
                                 "/swagger-resources/**",
                                 "/webjars/**",
                                 "/public/**",
-                                "/auth/check/**"
+                                "/auth/check/**",
+                                "/client/auth/token/refresh",
+                                "/client/auth/logout"
                         ).permitAll()
                         .requestMatchers("/admin/**").hasRole("COUNCIL")  // 특정 권한 필요
                         .anyRequest().authenticated()

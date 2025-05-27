@@ -1,4 +1,4 @@
-package org.example.wecambackend.dto.auth;
+package org.example.wecambackend.dto.auth.response;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonProperty;
