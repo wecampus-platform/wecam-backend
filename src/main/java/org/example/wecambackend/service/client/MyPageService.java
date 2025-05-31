@@ -41,9 +41,9 @@ public class MyPageService {
                 .orElseThrow(() -> new RuntimeException("유저 정보 없음."));
 
         // 3. 전화번호 복호화
-        String phoneNumber = phoneEncryptor.decrypt(
+        String phoneNumber = maskPhoneNumber(phoneEncryptor.decrypt(
                 userPrivateRepository.findEncryptedPhoneNumberByUserId(currentUser.getId())
-                        .orElseThrow(() -> new IllegalStateException("전화번호 정보 없음."))
+                        .orElseThrow(() -> new IllegalStateException("전화번호 정보 없음.")))
         );
 
         // 4. 조직 계층 이름 리스트
@@ -76,4 +76,11 @@ public class MyPageService {
         Collections.reverse(names);
         return names;
     }
+
+    // 디자인 요구사항 : 마스킹 전화번호를 위함.
+    public static String maskPhoneNumber(String phoneNumber) {
+        if (phoneNumber == null || phoneNumber.length() < 7) return phoneNumber;
+        return phoneNumber.substring(0, 3) + "-****-" + phoneNumber.substring(phoneNumber.length() - 4);
+    }
+
 }
