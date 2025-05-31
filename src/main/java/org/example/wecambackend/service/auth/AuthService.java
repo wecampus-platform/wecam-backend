@@ -10,6 +10,7 @@ import org.example.wecambackend.dto.auth.response.JwtResponse;
 import org.example.wecambackend.dto.auth.response.PhoneDuplicateCheckResponse;
 import org.example.wecambackend.dto.auto.LoginRequest;
 import org.example.wecambackend.dto.auto.LoginResponse;
+import org.example.wecambackend.dto.requestDTO.RepresentativeRegisterRequest;
 import org.example.wecambackend.dto.requestDTO.StudentRegisterRequest;
 import org.example.wecambackend.model.User.User;
 import org.example.wecambackend.model.User.UserPrivate;
@@ -194,5 +195,8 @@ public class AuthService {
         }
 
         return user;
+    }
+
+    public void registerLeader(RepresentativeRegisterRequest request) {
     }
 }
