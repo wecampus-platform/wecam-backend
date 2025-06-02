@@ -10,3 +10,8 @@ ALTER TABLE user
     ADD CONSTRAINT fk_user_school
         FOREIGN KEY (school_id)
             REFERENCES university(school_id);
+
+ALTER TABLE user ADD COLUMN enroll_year VARCHAR(4);
+
+ALTER TABLE affiliation_certification ADD COLUMN ocr_school_grade INT;
+ALTER TABLE user_information MODIFY COLUMN student_grade INT;
