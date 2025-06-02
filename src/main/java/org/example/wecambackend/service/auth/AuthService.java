@@ -10,6 +10,7 @@ import org.example.wecambackend.dto.auth.response.JwtResponse;
 import org.example.wecambackend.dto.auth.response.PhoneDuplicateCheckResponse;
 import org.example.wecambackend.dto.auto.LoginRequest;
 import org.example.wecambackend.dto.auto.LoginResponse;
+import org.example.wecambackend.dto.requestDTO.RepresentativeRegisterRequest;
 import org.example.wecambackend.dto.requestDTO.StudentRegisterRequest;
 import org.example.wecambackend.model.User.User;
 import org.example.wecambackend.model.User.UserPrivate;
@@ -18,6 +19,7 @@ import org.example.wecambackend.repos.UserPrivateRepository;
 import org.example.wecambackend.repos.UserRepository;
 import org.example.wecambackend.repos.UserSignupInformationRepository;
 import org.example.wecambackend.util.PhoneEncryptor;
+import org.flywaydb.core.internal.util.StringUtils;
 import org.springframework.data.redis.core.RedisTemplate;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
@@ -116,6 +118,66 @@ public class AuthService {
                 .build();
         signupInfoRepository.save(signupInfo);
     }
+
+    //학생회장 유저 - 회원가입
+    @Transactional
+    public void registerLeader(RepresentativeRegisterRequest req) {
+        //이메일 중복 체크
+        if (userRepository.existsByEmail(req.getEmail())) {
+            throw new IllegalArgumentException("이미 가입된 이메일입니다.");
+        }
+        //user 생성
+        User user = User.builder()
+                .email(req.getEmail())
+                .build();
+        userRepository.save(user);
+
+        //휴대전화
+        String encryptedPhone = phoneEncryptor.encrypt(req.getPhoneNumber());
+
+        //user_private 저장
+        UserPrivate userPrivate = UserPrivate.builder()
+                .user(user)
+                .password(passwordEncoder.encode(req.getPassword()))
+                .phoneNumber(encryptedPhone)
+                .build();
+        userPrivateRepository.save(userPrivate);
+
+        // UserSignupInformation builder 준비
+        UserSignupInformation.UserSignupInformationBuilder signupInfoBuilder = UserSignupInformation.builder()
+                .user(user)
+                .name(req.getName())
+                .enrollYear(req.getEnrollYear())
+                .isMakeWorkspace(true);
+
+        // selectSchoolId
+        if (req.getSelectSchoolId() != null) {
+            signupInfoBuilder.selectSchoolId(req.getSelectSchoolId());
+        }
+
+        // selectOrganizationId
+        if (req.getSelectOrganizationId() != null) {
+            signupInfoBuilder.selectOrganizationId(req.getSelectOrganizationId());
+        }
+
+        // input 필드 조건부 저장
+        if (StringUtils.hasText(req.getInputSchoolName())) {
+            signupInfoBuilder.inputSchoolName(req.getInputSchoolName());
+        }
+        if (StringUtils.hasText(req.getInputCollegeName())) {
+            signupInfoBuilder.inputCollegeName(req.getInputCollegeName());
+        }
+        if (StringUtils.hasText(req.getInputDepartmentName())) {
+            signupInfoBuilder.inputDepartmentName(req.getInputDepartmentName());
+        }
+
+        // 최종 빌드 & 저장
+        UserSignupInformation signupInfo = signupInfoBuilder.build();
+        signupInfoRepository.save(signupInfo);
+
+    }
+
+
 
 
     public EmailDuplicateCheckResponse validateDuplicatedEmail(String email) {
