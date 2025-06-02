@@ -20,12 +20,16 @@ public class UserDetailsImpl implements UserDetails {
     @Getter
     private final Long organizationId;
 
+    @Getter
+    private final Boolean auth;
+
     //로그인 이후 JwtAuthenticationFilter에서 사용자 정보를 기반으로 객체 생성
-    public UserDetailsImpl(Long id, String email, UserRole role, Long organizationId) {
+    public UserDetailsImpl(Long id, String email, UserRole role, Long organizationId, Boolean auth) {
         this.id = id;
         this.email = email;
         this.role = role;
         this.organizationId = organizationId;
+        this.auth = auth;
     }
     //JWT 기반 구조에서는 비밀번호가 필요하지 않기 때문에 null 반환
     @Override
