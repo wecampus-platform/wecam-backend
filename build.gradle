@@ -68,6 +68,10 @@ dependencies {
     implementation 'org.flywaydb:flyway-core'
     implementation 'org.flywaydb:flyway-mysql'
 
+
+    implementation project(':domain-common')
+
+
 }
 
 tasks.named('test') {

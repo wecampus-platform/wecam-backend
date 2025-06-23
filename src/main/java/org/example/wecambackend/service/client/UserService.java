@@ -2,16 +2,13 @@ package org.example.wecambackend.service.client;
 
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
-import org.example.wecambackend.model.Organization;
-import org.example.wecambackend.model.University;
-import org.example.wecambackend.model.User.User;
-import org.example.wecambackend.model.affiliation.AffiliationCertification;
-import org.example.wecambackend.model.enums.AuthenticationType;
-import org.example.wecambackend.model.enums.UserRole;
+import org.example.model.Organization;
+import org.example.model.University;
+import org.example.model.user.User;
+import org.example.model.enums.AuthenticationType;
+import org.example.model.enums.UserRole;
 import org.example.wecambackend.repos.UserRepository;
 import org.springframework.stereotype.Service;
-
-import java.time.LocalDateTime;
 
 @Slf4j
 @Service

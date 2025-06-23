@@ -7,7 +7,7 @@ import lombok.RequiredArgsConstructor;
 import org.example.wecambackend.config.security.UserDetailsImpl;
 import org.example.wecambackend.config.security.annotation.IsUnStudent;
 import org.example.wecambackend.config.security.annotation.IsUnauth;
-import org.example.wecambackend.model.enums.AuthenticationType;
+import org.example.model.enums.AuthenticationType;
 import org.example.wecambackend.service.client.Affiliation.AffiliationService;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;

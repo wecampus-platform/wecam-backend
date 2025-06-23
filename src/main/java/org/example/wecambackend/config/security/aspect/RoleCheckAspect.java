@@ -4,7 +4,7 @@ import lombok.RequiredArgsConstructor;
 import org.aspectj.lang.annotation.Aspect;
 import org.aspectj.lang.annotation.Before;
 import org.example.wecambackend.config.security.UserDetailsImpl;
-import org.example.wecambackend.model.enums.UserRole;
+import org.example.model.enums.UserRole;
 import org.example.wecambackend.repos.CouncilMemberRepository;
 import org.example.wecambackend.util.CurrentUserUtil;
 import org.springframework.security.access.AccessDeniedException;

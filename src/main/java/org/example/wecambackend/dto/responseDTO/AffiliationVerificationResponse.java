@@ -4,7 +4,7 @@ import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
-import org.example.wecambackend.model.enums.AuthenticationType;
+import org.example.model.enums.AuthenticationType;
 
 import java.time.LocalDateTime;
 

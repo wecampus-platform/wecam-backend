@@ -8,14 +8,10 @@ import org.example.wecambackend.config.security.annotation.CurrentUser;
 import org.example.wecambackend.config.security.annotation.HasAffiliationApprovalAuthority;
 import org.example.wecambackend.config.security.annotation.IsCouncil;
 import org.example.wecambackend.dto.responseDTO.AffiliationVerificationResponse;
-import org.example.wecambackend.exception.UnauthorizedException;
-import org.example.wecambackend.model.Council;
-import org.example.wecambackend.model.affiliation.AffiliationCertificationId;
-import org.example.wecambackend.model.enums.AuthenticationType;
-import org.example.wecambackend.repos.affiliation.AffiliationCertificationRepository;
+import org.example.model.affiliation.AffiliationCertificationId;
+import org.example.model.enums.AuthenticationType;
 import org.example.wecambackend.service.admin.AffiliationCertificationAdminService;
 import org.springframework.http.ResponseEntity;
-import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;

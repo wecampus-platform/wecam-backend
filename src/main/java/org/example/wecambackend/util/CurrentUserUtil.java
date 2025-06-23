@@ -3,7 +3,7 @@ package org.example.wecambackend.util;
 import org.example.wecambackend.config.security.context.CurrentUserContext;
 import org.example.wecambackend.config.security.UserDetailsImpl;
 import org.example.wecambackend.exception.UnauthorizedException;
-import org.example.wecambackend.model.enums.UserRole;
+import org.example.model.enums.UserRole;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 

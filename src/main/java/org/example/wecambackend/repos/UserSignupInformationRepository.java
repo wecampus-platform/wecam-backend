@@ -1,7 +1,7 @@
 package org.example.wecambackend.repos;
 
-import org.example.wecambackend.model.User.User;
-import org.example.wecambackend.model.User.UserSignupInformation;
+import org.example.model.user.User;
+import org.example.model.user.UserSignupInformation;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
 

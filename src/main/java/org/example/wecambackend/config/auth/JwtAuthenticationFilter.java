@@ -6,7 +6,7 @@ import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import lombok.RequiredArgsConstructor;
 import org.example.wecambackend.config.security.UserDetailsImpl;
-import org.example.wecambackend.model.User.User;
+import org.example.model.user.User;
 import org.example.wecambackend.repos.UserRepository;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.context.SecurityContextHolder;

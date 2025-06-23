@@ -5,7 +5,7 @@ import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
-import org.example.wecambackend.model.enums.UserRole;
+import org.example.model.enums.UserRole;
 
 @Getter
 @Builder

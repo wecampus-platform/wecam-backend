@@ -1,6 +1,6 @@
 package org.example.wecambackend.repos;
 
-import org.example.wecambackend.model.User.User;
+import org.example.model.user.User;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
@@ -17,6 +17,6 @@ public interface UserRepository extends JpaRepository<User, Long> {
     boolean existsByEmail(String email);
 
     // 마이페이지 때 사용 - organization 재사용성 을 위함.
-    @Query("SELECT u FROM User u LEFT JOIN FETCH u.organization WHERE u.userPkId = :id")
+    @Query( "SELECT u FROM User u LEFT JOIN FETCH u.organization WHERE u.userPkId = :id")
     Optional<User> findByIdWithOrganization(@Param("id") Long id);
 }

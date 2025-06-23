@@ -2,8 +2,8 @@ package org.example.wecambackend.dto.responseDTO;
 
 
 import lombok.*;
-import org.example.wecambackend.model.enums.AcademicStatus;
-import org.example.wecambackend.model.enums.UserRole;
+import org.example.model.enums.AcademicStatus;
+import org.example.model.enums.UserRole;
 
 import java.util.List;
 

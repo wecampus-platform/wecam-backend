@@ -1,7 +1,7 @@
 package org.example.wecambackend.dto.requestDTO;
 
 import lombok.*;
-import org.example.wecambackend.model.enums.OrganizationType;
+import org.example.model.enums.OrganizationType;
 
 @Getter @Setter
 @NoArgsConstructor

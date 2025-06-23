@@ -2,7 +2,7 @@ package org.example.wecambackend.dto.projection;
 
 import lombok.Getter;
 import lombok.Setter;
-import org.example.wecambackend.model.enums.OcrResult;
+import org.example.model.enums.OcrResult;
 
 
 @Getter

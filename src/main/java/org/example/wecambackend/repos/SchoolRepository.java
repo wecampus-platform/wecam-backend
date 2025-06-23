@@ -1,7 +1,7 @@
 package org.example.wecambackend.repos;
 
 
-import org.example.wecambackend.model.University;
+import org.example.model.University;
 import org.springframework.data.jpa.repository.JpaRepository;
 
 import java.util.Optional;

@@ -1,15 +1,11 @@
 package org.example.wecambackend.repos.affiliation;
 
-import org.example.wecambackend.dto.responseDTO.AffiliationVerificationResponse;
-import org.example.wecambackend.model.Organization;
-import org.example.wecambackend.model.User.User;
-//import org.example.wecambackend.model.affiliation.AffiliationCertification;
-import org.example.wecambackend.model.affiliation.AffiliationCertification;
-import org.example.wecambackend.model.affiliation.AffiliationCertificationId;
-import org.example.wecambackend.model.enums.AuthenticationType;
+import org.example.model.user.User;
+//import org.example.model.affiliation.AffiliationCertification;
+import org.example.model.affiliation.AffiliationCertification;
+import org.example.model.affiliation.AffiliationCertificationId;
+import org.example.model.enums.AuthenticationType;
 import org.springframework.data.jpa.repository.JpaRepository;
-import org.springframework.data.jpa.repository.Query;
-import org.springframework.data.repository.query.Param;
 
 import java.util.List;
 

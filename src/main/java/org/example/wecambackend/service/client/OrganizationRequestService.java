@@ -3,12 +3,12 @@ package org.example.wecambackend.service.client;
 import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
 import org.example.wecambackend.dto.requestDTO.OrganizationRequestRequest;
-import org.example.wecambackend.model.Organization;
-import org.example.wecambackend.model.OrganizationRequest;
-import org.example.wecambackend.model.User.User;
-import org.example.wecambackend.model.User.UserSignupInformation;
-import org.example.wecambackend.model.enums.OrganizationType;
-import org.example.wecambackend.model.enums.RequestStatus;
+import org.example.model.Organization;
+import org.example.model.OrganizationRequest;
+import org.example.model.user.User;
+import org.example.model.user.UserSignupInformation;
+import org.example.model.enums.OrganizationType;
+import org.example.model.enums.RequestStatus;
 import org.example.wecambackend.repos.*;
 import org.springframework.stereotype.Service;
 

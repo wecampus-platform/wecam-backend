@@ -1,6 +1,6 @@
 package org.example.wecambackend.repos;
 
-import org.example.wecambackend.model.CouncilMember;
+import org.example.model.CouncilMember;
 import org.springframework.data.jpa.repository.JpaRepository;
 
 public interface CouncilMemberRepository extends JpaRepository<CouncilMember,Long> {

@@ -1,8 +1,7 @@
 package org.example.wecambackend.config.security;
 
 import lombok.Getter;
-import org.example.wecambackend.model.User.User;
-import org.example.wecambackend.model.enums.UserRole;
+import org.example.model.enums.UserRole;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
